@@ -1,14 +1,17 @@
 :host {
   all: initial;
-  /* Light theme, derived from the icon: white surfaces, slate text, red accent. */
-  --rl-surface: rgba(255, 255, 255, 0.96);
-  --rl-text: #1f2937;
-  --rl-muted: #6b7280;
-  --rl-line: rgba(31, 41, 55, 0.14);
-  --rl-hover: rgba(31, 41, 55, 0.08);
-  --rl-accent: #ef4444;
-  --rl-accent-soft: rgba(239, 68, 68, 0.14);
-  --rl-accent-ink: #b91c1c;
+  /* Ash-blue theme with a coral-red accent. Every UI color comes from these variables. */
+  --rl-surface: rgba(213, 224, 236, 0.96); /* ash blue */
+  --rl-surface-solid: #e3ebf3;
+  --rl-text: #243447; /* deep ash blue */
+  --rl-muted: #587089;
+  --rl-line: rgba(60, 85, 115, 0.32);
+  --rl-hover: rgba(70, 100, 135, 0.18);
+  --rl-shadow: rgba(43, 58, 74, 0.28);
+  --rl-veil: rgba(43, 58, 74, 0.32);
+  --rl-accent: #e5565b; /* coral red */
+  --rl-accent-soft: rgba(229, 86, 91, 0.16);
+  --rl-accent-ink: #b4232c;
 }
 
 [hidden] {
@@ -60,7 +63,7 @@
   font: 500 12px/1.2 system-ui, -apple-system, 'Segoe UI', sans-serif;
   color: var(--rl-text);
   background: var(--rl-surface);
-  box-shadow: 0 0 0 1px var(--rl-line), 0 4px 14px rgba(31, 41, 55, 0.18);
+  box-shadow: 0 0 0 1px var(--rl-line), 0 4px 14px var(--rl-shadow);
 }
 
 .rl-hint {
@@ -145,7 +148,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(17, 24, 39, 0.28);
+  background: var(--rl-veil);
   -webkit-backdrop-filter: blur(var(--rl-blur, 8px));
   backdrop-filter: blur(var(--rl-blur, 8px));
 }
@@ -155,7 +158,7 @@
   line-height: 0;
   border-radius: 6px;
   overflow: hidden;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.95), 0 10px 40px rgba(31, 41, 55, 0.35);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.95), 0 10px 40px var(--rl-shadow);
 }
 
 .rl-zoom-frame canvas {
@@ -186,8 +189,8 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 0 0 1px var(--rl-line), 0 2px 8px rgba(31, 41, 55, 0.25);
+  background: var(--rl-surface-solid);
+  box-shadow: 0 0 0 1px var(--rl-line), 0 2px 8px var(--rl-shadow);
   color: var(--rl-text);
   cursor: pointer;
 }
@@ -200,7 +203,7 @@
 .rl-zoom-close:focus-visible,
 .rl-zoom-action:hover,
 .rl-zoom-action:focus-visible {
-  background: #f3f4f6;
+  background: #d3deea;
 }
 
 /* Lock-on switched on: soft red pill with deep red text. */
@@ -246,7 +249,7 @@
   inset: 0;
   z-index: 2147483646;
   box-sizing: border-box;
-  border: 2px solid #ef4444;
+  border: 2px solid var(--rl-accent);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
   pointer-events: none;
   animation: rl-fade 120ms ease-out;
@@ -275,8 +278,8 @@
   height: 14px;
   margin: -7px 0 0 -7px;
   border-radius: 50%;
-  background: #ef4444;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 14px 5px rgba(239, 68, 68, 0.65);
+  background: var(--rl-accent);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 14px 5px rgba(229, 86, 91, 0.65);
   pointer-events: none;
   will-change: transform;
 }
