@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Revlur",
   "version": "0.3.0",
-  "description": "Focus on what matters. Select an area of any page and blur everything else.",
+  "description": "Drag a box on any page and blur everything else. Zoom, present and read with focus. No accounts, no tracking.",
   "minimum_chrome_version": "111",
   "permissions": [
     "activeTab",
