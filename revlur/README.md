@@ -11,7 +11,7 @@ Focus on what matters. Select an area of a page; everything else is blurred.
 No shortcut is assigned by default. Set one at `chrome://extensions/shortcuts` (Revlur -> "Activate Revlur on the current page").
 
 ## Status
-Feature-complete V1 (Phase 6 polish). Blur. Click the icon, drag a rectangle in any direction; everything outside it is blurred (default 8px, adjustable 0-20px with the toolbar slider, remembered locally). The toolbar offers Blur, Zoom, Re-select and exit. **Zoom** opens a modal with the selected area enlarged (a snapshot of the visible tab) over the blurred page; `Esc`, a click outside, or the modal's Ã— closes it. `Esc` again, the toolbar Ã—, or clicking the icon exits. **Lock-on** (off by default) keeps the focus on the same content as you scroll: the clear area tracks the page element under your selection, or the same page position if no single element fits. If the element disappears, Lock-on switches itself off. Re-select keeps Lock-on's on/off state.
+Feature-complete V1 (Phase 6 polish). Blur. Click the icon, drag a rectangle in any direction; everything outside it is blurred (default 8px, adjustable 0-20px with the toolbar slider, remembered locally). The toolbar offers Blur, Zoom, Re-select and exit. **Zoom** opens a modal with the selected area enlarged (a snapshot of the visible tab) over the blurred page; `Esc`, a click outside, or the modal's Ã— closes it. `Esc` again, the toolbar Ã—, or clicking the icon exits. **Lock-on** (the default) holds the page still while you present; press **Scroll** to let the page move through the fixed clear window, for example to read a long article, and press it again to lock at the new spot.
 
 ## Unit tests
 ```
@@ -21,7 +21,7 @@ node --test tests/geometry.test.js
 ## Using it
 - Click the icon (or your shortcut), drag a rectangle in any direction. Everything outside it is blurred.
 - In Zoom, the copy icon (or Ctrl/Cmd+C) puts the image on the clipboard and the download icon saves it as a PNG. Neither needs extra permissions.
-- Toolbar: **Blur** slider (0-20px, remembered), **Zoom**, **Lock-on**, **Re-select**, **x**. Drag the "Revlur" label to move the toolbar out of the way; it returns to automatic placement on Re-select.
+- Toolbar: **Blur** slider (0-20px, remembered), **Zoom**, **Scroll**, **Re-select**, **x**. Drag the "Revlur" label to move the toolbar out of the way; it returns to automatic placement on Re-select.
 - `Esc` closes Zoom first, then exits Revlur. Clicking the icon again also exits.
 - Motion is a 120ms fade only, and is disabled with the system "reduce motion" setting.
 

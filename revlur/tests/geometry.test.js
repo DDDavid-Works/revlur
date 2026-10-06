@@ -60,21 +60,6 @@ test('cropRect converts CSS px to screenshot px and stays inside the image', () 
   assert.ok(r.x + r.w <= 2000 && r.y + r.h <= 1600 && r.w >= 1 && r.h >= 1);
 });
 
-test('overlapRatio is the covered fraction of the selection', () => {
-  const sel = { x: 100, y: 100, w: 100, h: 100 };
-  assert.equal(g.overlapRatio({ x: 0, y: 0, w: 1000, h: 1000 }, sel), 1);
-  assert.equal(g.overlapRatio({ x: 150, y: 100, w: 100, h: 100 }, sel), 0.5);
-  assert.equal(g.overlapRatio({ x: 500, y: 500, w: 10, h: 10 }, sel), 0);
-});
-
-test('isReliableTarget accepts a paragraph, rejects big containers and thin slivers', () => {
-  const sel = { x: 100, y: 100, w: 300, h: 100 };
-  assert.equal(g.isReliableTarget({ x: 90, y: 90, w: 340, h: 140 }, sel), true); // snug element
-  assert.equal(g.isReliableTarget({ x: 0, y: 0, w: 1200, h: 3000 }, sel), false); // page-sized container
-  assert.equal(g.isReliableTarget({ x: 100, y: 100, w: 100, h: 100 }, sel), false); // covers only a third
-  assert.equal(g.isReliableTarget({ x: 100, y: 100, w: 0, h: 0 }, sel), false); // hidden
-});
-
 test('snapshotFileName is sortable local time with zero padding', () => {
   assert.equal(g.snapshotFileName(new Date(2026, 9, 6, 14, 30, 12)), 'revlur-2026-10-06-143012.png');
   assert.equal(g.snapshotFileName(new Date(2026, 0, 2, 3, 4, 5)), 'revlur-2026-01-02-030405.png');

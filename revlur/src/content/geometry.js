@@ -71,21 +71,6 @@
     return { x, y, w, h };
   }
 
-  // Fraction of sel's area covered by rect (both {x,y,w,h} in the same coordinate space).
-  function overlapRatio(rect, sel) {
-    const w = Math.min(rect.x + rect.w, sel.x + sel.w) - Math.max(rect.x, sel.x);
-    const h = Math.min(rect.y + rect.h, sel.y + sel.h) - Math.max(rect.y, sel.y);
-    const area = sel.w * sel.h;
-    return w > 0 && h > 0 && area > 0 ? (w * h) / area : 0;
-  }
-
-  // An element is a reliable Lock-on target when it covers most of the selection and is not
-  // a much larger container (e.g. a grid holding several cards, or the whole page).
-  function isReliableTarget(rect, sel, minCover = 0.7, maxAreaRatio = 3) {
-    if (rect.w <= 0 || rect.h <= 0) return false;
-    return overlapRatio(rect, sel) >= minCover && rect.w * rect.h <= maxAreaRatio * sel.w * sel.h;
-  }
-
   // revlur-2026-10-06-143012.png (local time)
   function snapshotFileName(date) {
     const p = (n) => String(n).padStart(2, '0');
@@ -96,7 +81,7 @@
 
   const api = {
     MIN_SELECTION, clamp, clampPoint, normalizeRect, isSelectable, clampRect, roundRect, placeToolbar,
-    intersectViewport, fitZoom, cropRect, overlapRatio, isReliableTarget, snapshotFileName,
+    intersectViewport, fitZoom, cropRect, snapshotFileName,
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else globalThis.__revlurGeometry = api;

@@ -32,9 +32,10 @@
   let blurPx = DEFAULT_BLUR;
   let toolbarXY = { x: 0, y: 0 }; // where the toolbar currently sits (viewport coords)
   let toolbarPos = null; // set once the user drags the toolbar; reset on Re-select
-  let lockBtn = null;
-  let lockOn = false; // user's Lock-on toggle (OFF by default)
-  let lock = null; // active tracking: {el|null, off, doc, w, h, raf, timer, ro}
+  let scrollBtn = null;
+  let scrollAllowed = false; // Lock-on is the default: the page is held still until the user allows scrolling
+  let scrollHold = null; // page position held while locked: {x, y}
+  let lastNudge = 0; // when we last told the user that scrolling is locked
 
   try {
     chrome.storage.local.get('blur', ({ blur }) => {
@@ -101,7 +102,7 @@
       moveToolbar(geo.clamp(toolbarPos.x, 0, Math.max(0, vw - size.w)), geo.clamp(toolbarPos.y, 0, Math.max(0, vh - size.h)));
       return;
     }
-    // Lock-on can push the hole partly or fully off-screen; place the toolbar by its visible part.
+    // Place the toolbar by the visible part of the hole.
     const visible = geo.intersectViewport(selection, vw, vh);
     const pos = geo.placeToolbar(visible, size, vw, vh);
     moveToolbar(pos.x, pos.y);
@@ -136,114 +137,72 @@
     positionToolbar();
   }
 
-  // ---- Lock-on (best-effort; never touches page scrolling) ----
+  // ---- Lock-on: the page is held still by default; the Scroll button lets it move ----
+  // The clear window itself never moves. With scrolling allowed, the page slides through it, which
+  // makes a reading window for long pages.
 
-  // Smallest element that snugly contains the selection, or null if none is reliable.
-  function findLockTarget(sel) {
-    const els = [];
-    for (const fx of [0.15, 0.5, 0.85]) {
-      for (const fy of [0.15, 0.5, 0.85]) {
-        const el = document.elementFromPoint(sel.x + sel.w * fx, sel.y + sel.h * fy);
-        if (el && el !== host) els.push(el);
-      }
+  // True when the wheel event would scroll a scroller inside the clear window (a code block, a textarea).
+  function wheelScrollsInner(e) {
+    for (const el of e.composedPath()) {
+      if (el === host) return false; // over the blurred area or Revlur's own UI
+      if (!(el instanceof Element) || el === document.body || el === document.documentElement) continue;
+      const cs = getComputedStyle(el);
+      const canY = (cs.overflowY === 'auto' || cs.overflowY === 'scroll') && el.scrollHeight > el.clientHeight;
+      const canX = (cs.overflowX === 'auto' || cs.overflowX === 'scroll') && el.scrollWidth > el.clientWidth;
+      if (canY && ((e.deltaY > 0 && el.scrollTop + el.clientHeight < el.scrollHeight - 1) || (e.deltaY < 0 && el.scrollTop > 0))) return true;
+      if (canX && ((e.deltaX > 0 && el.scrollLeft + el.clientWidth < el.scrollWidth - 1) || (e.deltaX < 0 && el.scrollLeft > 0))) return true;
     }
-    if (!els.length) return null;
-    let anc = els[0];
-    for (const el of els) {
-      while (anc && !anc.contains(el)) anc = anc.parentElement;
-    }
-    const body = document.body;
-    for (let el = anc; el && el !== body && el !== document.documentElement; el = el.parentElement) {
-      if (el.tagName === 'IFRAME') return null; // iframes are out of scope for V1
-      const r = el.getBoundingClientRect();
-      if (geo.overlapRatio({ x: r.left, y: r.top, w: r.width, h: r.height }, sel) >= 0.7) {
-        return geo.isReliableTarget({ x: r.left, y: r.top, w: r.width, h: r.height }, sel) ? el : null;
-      }
-    }
-    return null;
+    return false;
   }
 
-  function releaseLock() {
-    if (!lock) return;
-    cancelAnimationFrame(lock.raf);
-    clearInterval(lock.timer);
-    lock.ro?.disconnect();
-    window.removeEventListener('scroll', scheduleLock);
-    lock = null;
+  function nudgeLocked() {
+    const now = performance.now();
+    if (now - lastNudge < 4000) return;
+    lastNudge = now;
+    showNote('Scrolling is locked · press Scroll to move the page');
   }
 
-  function updateLockButton() {
-    lockBtn?.setAttribute('aria-pressed', String(lockOn));
-    if (lockBtn) {
-      lockBtn.title = !lockOn
-        ? 'Keep the focus on the same content while scrolling'
-        : lock?.el
-          ? 'Locked onto the page element under the selection'
-          : 'Locked onto the selected page position';
+  function onLockedWheel(e) {
+    if (wheelScrollsInner(e)) return;
+    e.preventDefault();
+    nudgeLocked();
+  }
+
+  // Catches everything the wheel handler can't (scrollbar drag, keyboard, find-in-page, scripts).
+  function onLockedScroll() {
+    if (scrollHold && (window.scrollX !== scrollHold.x || window.scrollY !== scrollHold.y)) {
+      window.scrollTo({ left: scrollHold.x, top: scrollHold.y, behavior: 'instant' });
     }
   }
 
-  function loseLock(note) {
-    lockOn = false;
-    releaseLock();
-    updateLockButton();
-    showNote(note);
+  function unlockScroll() {
+    window.removeEventListener('wheel', onLockedWheel, true);
+    document.removeEventListener('scroll', onLockedScroll);
+    scrollHold = null;
   }
 
-  function scheduleLock() {
-    if (lock && !lock.raf) {
-      lock.raf = requestAnimationFrame(() => {
-        if (lock) lock.raf = 0;
-        lockUpdate();
-      });
+  function updateScrollButton() {
+    if (!scrollBtn) return;
+    scrollBtn.setAttribute('aria-pressed', String(scrollAllowed));
+    scrollBtn.title = scrollAllowed
+      ? 'Scrolling is on: the page moves through the clear window. Click to lock it again'
+      : 'The page is locked in place. Click to allow scrolling';
+  }
+
+  // Lock the page when a selection exists and scrolling hasn't been allowed.
+  function applyScrollLock() {
+    unlockScroll();
+    if (selection && !scrollAllowed) {
+      scrollHold = { x: window.scrollX, y: window.scrollY };
+      window.addEventListener('wheel', onLockedWheel, { capture: true, passive: false });
+      document.addEventListener('scroll', onLockedScroll, { passive: true });
     }
+    updateScrollButton();
   }
 
-  function lockUpdate() {
-    if (!lock || !selection) return;
-    let rect;
-    if (lock.el) {
-      const r = lock.el.getBoundingClientRect();
-      if (!lock.el.isConnected || (r.width === 0 && r.height === 0)) {
-        loseLock('Lock-on turned off: the tracked element is gone');
-        return;
-      }
-      rect = { x: r.left + lock.off.x, y: r.top + lock.off.y, w: lock.w, h: lock.h };
-    } else {
-      // No reliable element: stick to the same spot on the page (document coordinates).
-      rect = { x: lock.doc.x - window.scrollX, y: lock.doc.y - window.scrollY, w: lock.w, h: lock.h };
-    }
-    if (rect.x !== selection.x || rect.y !== selection.y) setSelection(rect);
-  }
-
-  function acquireLock() {
-    releaseLock();
-    if (!lockOn || !selection) return;
-    const el = findLockTarget(selection);
-    const r = el?.getBoundingClientRect();
-    lock = {
-      el,
-      off: r ? { x: selection.x - r.left, y: selection.y - r.top } : null,
-      doc: { x: selection.x + window.scrollX, y: selection.y + window.scrollY },
-      w: selection.w,
-      h: selection.h,
-      raf: 0,
-      timer: setInterval(lockUpdate, 300), // catches layout shifts that fire no scroll event
-      ro: null,
-    };
-    if (el && typeof ResizeObserver === 'function') {
-      lock.ro = new ResizeObserver(scheduleLock);
-      lock.ro.observe(el);
-    }
-    window.addEventListener('scroll', scheduleLock, { passive: true });
-    updateLockButton();
-  }
-
-  function toggleLock() {
-    lockOn = !lockOn;
-    if (lockOn) acquireLock();
-    else releaseLock();
-    updateLockButton();
+  function toggleScroll() {
+    scrollAllowed = !scrollAllowed;
+    applyScrollLock();
   }
 
   function showNote(text) {
@@ -330,7 +289,7 @@
   // Show the selected area enlarged in a modal over the (still blurred) page.
   async function openZoom() {
     if (!selection || zoomEl) return;
-    // Lock-on can leave the hole partly off-screen: zoom the part that is visible.
+    // Zoom the visible part of the hole.
     const view = viewportSize();
     const sel = geo.intersectViewport(selection, view.w, view.h);
     if (!geo.isSelectable(sel)) {
@@ -457,7 +416,7 @@
   function enterSelecting() {
     toolbarPos = null;
     closeZoom();
-    releaseLock();
+    unlockScroll();
     selection = null;
     anchor = null;
     capture.hidden = false;
@@ -480,7 +439,7 @@
     toolbar.hidden = false;
     applyBlur();
     positionToolbar();
-    acquireLock(); // no-op unless the Lock-on toggle is on
+    applyScrollLock(); // Lock-on: hold the page still unless the user has allowed scrolling
   }
 
   function pointFromEvent(e) {
@@ -522,12 +481,7 @@
 
   function onResize() {
     if (!selection) return;
-    if (lock) {
-      lockUpdate();
-      drawBlur(selection); // viewport size changed
-      positionToolbar();
-      return;
-    }
+    if (scrollHold) scrollHold = { x: window.scrollX, y: window.scrollY }; // reflow may have moved the page
     const { w, h } = viewportSize();
     setSelection(geo.clampRect(selection, w, h));
   }
@@ -597,9 +551,9 @@
     label.append(labelText, blurSlider, blurValue);
 
     const zoom = button('rl-btn', 'Zoom', 'Show the selected area enlarged');
-    lockBtn = button('rl-btn', 'Lock-on', '');
-    lockBtn.addEventListener('click', toggleLock);
-    updateLockButton();
+    scrollBtn = button('rl-btn', 'Scroll', '');
+    scrollBtn.addEventListener('click', toggleScroll);
+    updateScrollButton();
     const reselect = button('rl-btn', 'Re-select', 'Select a different area');
     const close = button('rl-btn rl-close', '×', 'Exit Revlur (Esc)');
     close.setAttribute('aria-label', 'Exit Revlur');
@@ -615,7 +569,7 @@
       bar.addEventListener(type, (e) => e.stopPropagation());
     }
 
-    bar.append(brand, label, zoom, lockBtn, reselect, close);
+    bar.append(brand, label, zoom, scrollBtn, reselect, close);
     return bar;
   }
 
@@ -676,12 +630,12 @@
     if (!active) return;
     active = false;
     zoomToken++;
-    releaseLock();
-    lockOn = false; // Lock-on is OFF by default on every activation
+    unlockScroll();
+    scrollAllowed = false; // every activation starts locked
     window.removeEventListener('keydown', onKeyDown, true);
     window.removeEventListener('resize', onResize);
     host?.remove();
-    host = shadow = frameEl = lockBtn = zoomEl = capture = blurLayer = panels = selectionEl = hint = toolbar = blurSlider = blurValue = null;
+    host = shadow = frameEl = scrollBtn = zoomEl = capture = blurLayer = panels = selectionEl = hint = toolbar = blurSlider = blurValue = null;
     anchor = selection = null;
   }
 
