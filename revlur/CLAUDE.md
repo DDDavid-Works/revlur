@@ -64,10 +64,10 @@ Load unpacked at `chrome://extensions` (Developer mode). Edge cases to cover: lo
 - Zoom modal: the close button floats outside the image (above its top-right corner) so it never covers content. The image is sized to leave a 48px margin on every side so the button always fits on screen.
 
 ## Icon
-Source: assets/icon.svg (not packaged). A red broken-square viewfinder (four equal corner brackets, symmetric on both axes) around a white R with a red dot like a period. The PNGs in src/icons (16/32/48/128) are rendered from it; re-render them if the SVG changes.
+Source: assets/icon.svg (not packaged). A coral-red broken-square viewfinder (four equal corner brackets, symmetric on both axes) around an off-white R with a coral dot like a period, on an ash-blue tile. The PNGs in src/icons (16/32/48/128) are rendered from it; re-render them if the SVG changes.
 
 ## Phase 7: Copy and Save image (Zoom only)
 Added after the six planned phases, as a small additive step (decision: copy/save of the existing snapshot are local utilities, not the "sharing" the spec excludes). Icon buttons (copy, download, close; outline icons built as SVG DOM nodes, no text labels) sit above the Zoom image; Ctrl/Cmd+C also copies while Zoom is open (unless text is selected). Copy writes a PNG with navigator.clipboard.write on a user gesture (Revlur never reads the clipboard); Save downloads revlur-YYYY-MM-DD-HHMMSS.png through a blob anchor into the normal downloads folder. No new permissions. On success the icon briefly becomes a check; on failure a red alert mark. Still not added: text copy, annotation, sharing.
 
 ## Theme
-Ash-blue UI theme with a coral-red accent (content.css custom properties on :host; change colors there, never in individual rules). Surface #d5e0ec (96% opaque), solid surface #e3ebf3, text #243447, muted #587089, hover/line are translucent ash blue, shadows and the Zoom veil use #2b3a4a. Accent #e5565b (slider, window outline, laser dot, Lock-on pill with deep red text #b4232c). The icon itself is still the dark slate version.
+Ash-blue UI theme with a coral-red accent (content.css custom properties on :host; change colors there, never in individual rules). Surface #d5e0ec (96% opaque), solid surface #e3ebf3, text #243447, muted #587089, hover/line are translucent ash blue, shadows and the Zoom veil use #2b3a4a. Accent #e5565b (slider, window outline, laser dot, Lock-on pill with deep red text #b4232c). The icon uses the same palette: ash-blue tile #3d5166, coral brackets and dot #e5565b, off-white R #f4f7fa.
