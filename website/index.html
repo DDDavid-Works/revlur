@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revlur – Focus on what matters</title>
+<meta name="description" content="Revlur is a Chrome extension: drag a rectangle on any page and everything else is blurred. Zoom in, lock on, present with focus.">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="#top"><img src="assets/icon.svg" alt="" width="28" height="28"><span>Revlur</span></a>
+  <nav>
+    <a href="#features">Features</a>
+    <a href="#use">Use cases</a>
+    <a href="#privacy">Privacy</a>
+    <a class="btn btn-small" href="#get">Get Revlur</a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <p class="eyebrow">Chrome extension</p>
+    <h1>Focus on <span class="accent">what matters.</span></h1>
+    <p class="lead">Click the icon, drag a rectangle on any page. Everything outside it is blurred. No popups, no accounts, no setup.</p>
+    <div class="cta">
+      <a class="btn" href="#get">Add to Chrome</a>
+      <a class="btn btn-ghost" href="#demo">Try the demo</a>
+    </div>
+  </section>
+
+  <section class="demo-wrap" id="demo">
+    <div class="demo" id="demo-stage" aria-label="Interactive demo: drag to choose the area that stays clear">
+      <div class="page" aria-hidden="true">
+        <div class="page-bar"><i></i><i></i><i></i><b>app.example.com/dashboard</b></div>
+        <div class="page-body">
+          <aside><span class="w"></span><span class="w"></span><span class="w"></span><span class="w"></span><span class="w"></span></aside>
+          <div class="grid">
+            <h3>Quarterly overview</h3>
+            <div class="cards">
+              <div class="card"><small>Revenue</small><strong>$482k</strong><em class="up">+12.4%</em></div>
+              <div class="card"><small>Active users</small><strong>31,208</strong><em class="up">+3.1%</em></div>
+              <div class="card"><small>Churn</small><strong>1.9%</strong><em class="dn">&minus;0.2%</em></div>
+            </div>
+            <div class="chart">
+              <svg viewBox="0 0 400 120" preserveAspectRatio="none">
+                <polyline fill="none" stroke="#e5565b" stroke-width="3" points="0,95 40,80 80,88 120,60 160,66 200,40 240,52 280,30 320,38 360,18 400,24"/>
+                <polyline fill="none" stroke="#6b7280" stroke-width="2" points="0,100 40,96 80,92 120,90 160,84 200,80 240,76 280,70 320,66 360,60 400,56"/>
+              </svg>
+            </div>
+            <div class="rows"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="blur" id="demo-blur-t"></div><div class="blur" id="demo-blur-b"></div><div class="blur" id="demo-blur-l"></div><div class="blur" id="demo-blur-r"></div>
+      <div class="hole" id="demo-hole"></div>
+      <div class="hint" id="demo-hint">Drag to select an area</div>
+      <div class="zoom" id="demo-zoom" hidden><div class="zoom-frame" id="zoom-frame"><div class="zoom-clip"><div class="zoom-inner" id="zoom-inner"></div></div><i class="dot" id="zoom-dot"></i><button class="zoom-x" id="zoom-x" aria-label="Close zoom">&times;</button></div></div>
+    </div>
+    <div class="controls"><label class="slider">Blur
+      <input id="demo-range" type="range" min="0" max="20" value="8">
+      <output id="demo-out">8px</output>
+    </label>
+    <button class="btn btn-ghost btn-small" id="demo-zoom-btn" type="button">Zoom</button></div>
+  </section>
+
+  <section class="section" id="features">
+    <h2>Four moves. Nothing else.</h2>
+    <div class="features">
+      <article><span class="n">1</span><h3>Select</h3><p>Click the icon and draw a box around the part of the page you care about. That is the only setup.</p></article>
+      <article><span class="n">2</span><h3>Blur</h3><p>Everything else fades into the background, so your audience looks where you want. Clicks on the blurred area do nothing, so nothing opens by accident mid-demo.</p></article>
+      <article><span class="n">3</span><h3>Zoom</h3><p>Blow up the selected area so the back row can read it. A red pointer dot shows up in screen shares, and you can copy or save the view as an image.</p></article>
+      <article><span class="n">4</span><h3>Lock-on</h3><p>Scroll without losing your place. The focus follows the chart, table or paragraph you picked as the page moves.</p></article>
+    </div>
+  </section>
+
+  <section class="section alt" id="use">
+    <h2>Made for people who point at screens</h2>
+    <ul class="uses">
+      <li><b>Presenting</b> Guide the room to one chart, not the whole dashboard.</li>
+      <li><b>Teaching</b> Walk through a page one section at a time.</li>
+      <li><b>Screen sharing</b> Keep side content out of focus while you demo.</li>
+      <li><b>Reading</b> Block distractions around the paragraph you're on.</li>
+    </ul>
+  </section>
+
+  <section class="section" id="privacy">
+    <h2>Light by design</h2>
+    <div class="facts">
+      <div><strong>One click</strong><span>No menus or pop-ups. Click the icon and start selecting.</span></div>
+      <div><strong>Leaves pages alone</strong><span>Revlur only sits on top of the page. Exit and everything is exactly as it was.</span></div>
+      <div><strong>Private</strong><span>No sign-up, no tracking, nothing sent anywhere. The only thing it remembers is your blur level, on your own computer.</span></div>
+      <div><strong>Only where you ask</strong><span>Revlur works on the page you click it on, and nowhere else. It never watches your other tabs.</span></div>
+    </div>
+  </section>
+
+  <section class="section get" id="get">
+    <img src="assets/icon.svg" alt="" width="72" height="72">
+    <h2>Get Revlur</h2>
+    <p>Chrome Web Store listing coming soon. Press <kbd>Esc</kbd> any time to exit.</p>
+    <a class="btn" href="#top">Add to Chrome</a>
+  </section>
+</main>
+
+<footer>
+  <span>&copy; 2026 Revlur</span>
+  <span>Short for &ldquo;reverse blur&rdquo;.</span>
+</footer>
+
+<script src="demo.js"></script>
+</body>
+</html>
