@@ -290,6 +290,43 @@
     positionToolbar();
   }
 
+  // Small outline icons (24x24 grid, drawn as DOM nodes so strict-CSP/Trusted Types pages can't block them).
+  const ICONS = {
+    copy: ['M15 5H7a2 2 0 0 0-2 2v8', 'M11 9h7a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z'],
+    save: ['M12 4v10', 'M8 10l4 4 4-4', 'M5 19h14'],
+    check: ['M5 12l5 5L20 7'],
+    alert: ['M12 7v6', 'M12 17h.01'],
+    close: ['M6 6l12 12', 'M18 6L6 18'],
+  };
+
+  function setIcon(btn, name) {
+    const NS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('width', '16');
+    svg.setAttribute('height', '16');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '2');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    svg.setAttribute('aria-hidden', 'true');
+    for (const d of ICONS[name]) {
+      const path = document.createElementNS(NS, 'path');
+      path.setAttribute('d', d);
+      svg.appendChild(path);
+    }
+    btn.replaceChildren(svg);
+  }
+
+  function iconButton(className, name, title) {
+    const b = button(className, '', title);
+    b.setAttribute('aria-label', title);
+    b.dataset.icon = name;
+    setIcon(b, name);
+    return b;
+  }
+
   // Show the selected area enlarged in a modal over the (still blurred) page.
   async function openZoom() {
     if (!selection || zoomEl) return;
@@ -331,8 +368,7 @@
 
     const frame = document.createElement('div');
     frame.className = 'rl-zoom-frame';
-    const closeBtn = button('rl-zoom-close', '×', 'Close (Esc)');
-    closeBtn.setAttribute('aria-label', 'Close zoom');
+    const closeBtn = iconButton('rl-zoom-close', 'close', 'Close (Esc)');
     closeBtn.addEventListener('click', closeZoom);
     frame.append(canvas);
 
@@ -363,14 +399,16 @@
     stage.className = 'rl-zoom-stage';
     const actions = document.createElement('div');
     actions.className = 'rl-zoom-actions';
-    const copyBtn = button('rl-zoom-action', 'Copy', 'Copy the image (Ctrl/Cmd+C)');
-    const saveBtn = button('rl-zoom-action', 'Save', 'Save as a PNG file');
-    const flash = (btn, text) => {
-      const label = btn.dataset.label ?? (btn.dataset.label = btn.textContent);
-      btn.textContent = text;
+    const copyBtn = iconButton('rl-zoom-action', 'copy', 'Copy image (Ctrl/Cmd+C)');
+    const saveBtn = iconButton('rl-zoom-action', 'save', 'Save as PNG');
+    // Briefly swap the icon for a check (done) or alert (failed), then restore it.
+    const flash = (btn, ok) => {
+      setIcon(btn, ok ? 'check' : 'alert');
+      btn.classList.toggle('rl-bad', !ok);
       clearTimeout(btn._t);
       btn._t = setTimeout(() => {
-        btn.textContent = label;
+        setIcon(btn, btn.dataset.icon);
+        btn.classList.remove('rl-bad');
       }, 1600);
     };
     const toBlob = () => new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
@@ -378,14 +416,14 @@
     const copyImage = async () => {
       try {
         await navigator.clipboard.write([new ClipboardItem({ 'image/png': toBlob() })]);
-        flash(copyBtn, 'Copied');
+        flash(copyBtn, true);
       } catch {
-        flash(copyBtn, 'Copy failed');
+        flash(copyBtn, false);
       }
     };
     const saveImage = async () => {
       const blob = await toBlob();
-      if (!blob) return flash(saveBtn, 'Save failed');
+      if (!blob) return flash(saveBtn, false);
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -394,7 +432,7 @@
       a.click();
       a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 10000);
-      flash(saveBtn, 'Saved');
+      flash(saveBtn, true);
     };
     copyBtn.addEventListener('click', copyImage);
     saveBtn.addEventListener('click', saveImage);

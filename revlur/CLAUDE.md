@@ -1,8 +1,8 @@
-# Revlur
+﻿# Revlur
 
 Official product name: **Revlur** (short for "reverse blur"). Use "Revlur" in the manifest name, UI text, toolbar, README and store listing.
 
-Chrome Extension (Manifest V3) for focus/presentation: **Select → Blur → Zoom → Lock-on**.
+Chrome Extension (Manifest V3) for focus/presentation: **Select â†’ Blur â†’ Zoom â†’ Lock-on**.
 The user drags a rectangle; everything outside stays blurred, the selection stays clear.
 Tagline: "Focus on what matters." Spec lives in `../revlur.txt`.
 
@@ -17,7 +17,7 @@ Tagline: "Focus on what matters." Spec lives in `../revlur.txt`.
 Service worker injects content script on click (or sends a toggle message if already injected) -> content script builds a **closed shadow-root** host on `documentElement` containing the selection layer, blur layer (four `backdrop-filter` rects around the hole), toolbar, Zoom modal, Lock-on.
 - Never modify page DOM/CSS. Overlay only; teardown must leave no trace.
 - Guard against double injection; exactly one host element.
-- Escape: capture-phase listener with `stopPropagation`; `×` does the same full cleanup.
+- Escape: capture-phase listener with `stopPropagation`; `Ã—` does the same full cleanup.
 - Fail quietly on restricted pages (`chrome://`, Web Store, PDF viewer), e.g. a badge.
 
 ## V1 decisions (do not revisit without asking)
@@ -25,21 +25,21 @@ Service worker injects content script on click (or sends a toggle message if alr
 - Default state (Lock-on OFF): the overlay remains fixed to the viewport and the selected hole stays at the same viewport coordinates while the underlying page scrolls. Page scrolling is never intercepted.
 - **Zoom** (replaces the earlier scroll-centering "Center", dropped by decision): the toolbar Zoom button opens a modal showing the selected area enlarged over the still-blurred page. Implementation is a **snapshot**: the service worker calls `chrome.tabs.captureVisibleTab` (covered by `activeTab`, no extra permission), the content script hides its own overlay for two frames to capture, crops the selection (screenshot px = CSS px x image/innerWidth), and draws it on a canvas scaled to fit ~90% of the viewport (max 4x). Not live or interactive. First Esc / click outside / x closes the modal; a second Esc exits Revlur. No browser-level zoom.
 - **Lock-on** (OFF by default, resets on every activation) is **best-effort and must never break the core blur experience or alter page scrolling**. On enabling, it looks for a reliable target: the common ancestor of a 3x3 grid of sample points, climbed to the first element covering >=70% of the selection and no larger than 3x its area (`isReliableTarget`). If found, the hole tracks that element via `getBoundingClientRect()` (scroll, ResizeObserver and a 300ms check for layout shifts). If no element is reliable (several cards, free-form area, iframe), it falls back to document coordinates, i.e. the hole sticks to the same spot on the page. If the element disappears or becomes hidden, Lock-on turns itself off with a brief note and the hole stays where it was. The hole may leave the viewport; the toolbar then docks to the visible edge and Zoom uses the visible part.
-- Blur default 8px, range 0–20px. Prioritize performance over effects. `backdrop-filter` can get expensive on huge pages, animated pages, video, dashboards and high-res monitors: in Phase 3, test blur performance on a long real-world webpage (scrolling, video, dashboard) before adding any additional visual effects or transitions.
+- Blur default 8px, range 0â€“20px. Prioritize performance over effects. `backdrop-filter` can get expensive on huge pages, animated pages, video, dashboards and high-res monitors: in Phase 3, test blur performance on a long real-world webpage (scrolling, video, dashboard) before adding any additional visual effects or transitions.
 - **The blurred area is inert** (decision: it is a safe barrier for presentations). Clicks, double-clicks and context menus on the blur panels stop there and never reach the page, so links/controls under the blur cannot be triggered by accident, and a click there does not exit Revlur. Wheel and scrollbar scrolling still work. Exit only via Esc, the toolbar x, or the icon. The clear hole has no panel over it, so the page inside it works normally.
 - **Cursor states:** during selection mode, use a crosshair cursor. Once a selection exists, restore the normal webpage cursor and use pointer cursors only for Revlur controls. Re-selecting enters crosshair mode again. Over the inert blurred area the normal arrow is used. Do not unnecessarily override cursor behavior inside the selected webpage area: the hole is only a hole, so links and controls inside it keep working and keep their own cursors. The one exception is Zoom mode, which doubles as a presentation view: the dimmed/blurred backdrop keeps the normal arrow (no pointer), and over the enlarged image the native cursor is hidden and replaced by a red laser-pointer dot drawn in the page (so it also shows in screen shares that don't capture the real cursor). Over the modal's close button the normal pointer cursor and no dot are used. Touch input gets no dot.
 
 ## Layout
 ```
 revlur/
-├── manifest.json
-├── README.md
-├── CLAUDE.md
-├── src/background/service-worker.js
-├── src/content/content.js, content.css
-├── src/icons/icon{16,32,48,128}.png
-├── test-pages/      local pages: long page, sticky header, modal, etc.
-└── screenshots/
+â”œâ”€â”€ manifest.json
+â”œâ”€â”€ README.md
+â”œâ”€â”€ CLAUDE.md
+â”œâ”€â”€ src/background/service-worker.js
+â”œâ”€â”€ src/content/content.js, content.css
+â”œâ”€â”€ src/icons/icon{16,32,48,128}.png
+â”œâ”€â”€ test-pages/      local pages: long page, sticky header, modal, etc.
+â””â”€â”€ screenshots/
 ```
 
 ## Process
@@ -67,4 +67,4 @@ Load unpacked at `chrome://extensions` (Developer mode). Edge cases to cover: lo
 Source: assets/icon.svg (not packaged). A red broken-square viewfinder (four equal corner brackets, symmetric on both axes) around a white R with a red dot like a period. The PNGs in src/icons (16/32/48/128) are rendered from it; re-render them if the SVG changes.
 
 ## Phase 7: Copy and Save image (Zoom only)
-Added after the six planned phases, as a small additive step (decision: copy/save of the existing snapshot are local utilities, not the "sharing" the spec excludes). Buttons **Copy** and **Save** sit beside the close button above the Zoom image; Ctrl/Cmd+C also copies while Zoom is open (unless text is selected). Copy writes a PNG with navigator.clipboard.write on a user gesture (Revlur never reads the clipboard); Save downloads revlur-YYYY-MM-DD-HHMMSS.png through a blob anchor into the normal downloads folder. No new permissions. Button labels flash Copied / Saved / Copy failed. Still not added: text copy, annotation, sharing.
+Added after the six planned phases, as a small additive step (decision: copy/save of the existing snapshot are local utilities, not the "sharing" the spec excludes). Icon buttons (copy, download, close; outline icons built as SVG DOM nodes, no text labels) sit above the Zoom image; Ctrl/Cmd+C also copies while Zoom is open (unless text is selected). Copy writes a PNG with navigator.clipboard.write on a user gesture (Revlur never reads the clipboard); Save downloads revlur-YYYY-MM-DD-HHMMSS.png through a blob anchor into the normal downloads folder. No new permissions. On success the icon briefly becomes a check; on failure a red alert mark. Still not added: text copy, annotation, sharing.

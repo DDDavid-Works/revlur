@@ -171,26 +171,24 @@
 .rl-zoom-close {
   all: unset;
   box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
   height: 28px;
-  border-radius: 14px;
+  border-radius: 50%;
   background: rgba(17, 24, 39, 0.92);
   box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.85);
   color: #f9fafb;
-  font: 500 12px/28px system-ui, -apple-system, 'Segoe UI', sans-serif;
-  text-align: center;
   cursor: pointer;
 }
 
-.rl-zoom-action {
-  min-width: 72px;
-  padding: 0 12px;
+.rl-zoom-action.rl-bad {
+  color: #fca5a5;
 }
 
-.rl-zoom-close {
-  width: 28px;
-  font-size: 18px;
-}
-
+.rl-zoom-close:hover,
+.rl-zoom-close:focus-visible,
 .rl-zoom-action:hover,
 .rl-zoom-action:focus-visible {
   background: rgba(17, 24, 39, 1);
