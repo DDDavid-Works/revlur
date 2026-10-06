@@ -158,20 +158,42 @@
   line-height: 0;
 }
 
-.rl-zoom-close {
-  all: unset;
+.rl-zoom-actions {
   position: absolute;
   top: -38px; /* above the image's top-right corner, outside it */
   right: 0;
-  width: 28px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rl-zoom-action,
+.rl-zoom-close {
+  all: unset;
+  box-sizing: border-box;
   height: 28px;
-  border-radius: 50%;
+  border-radius: 14px;
   background: rgba(17, 24, 39, 0.92);
   box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.85);
   color: #f9fafb;
-  font: 500 18px/28px system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font: 500 12px/28px system-ui, -apple-system, 'Segoe UI', sans-serif;
   text-align: center;
   cursor: pointer;
+}
+
+.rl-zoom-action {
+  min-width: 72px;
+  padding: 0 12px;
+}
+
+.rl-zoom-close {
+  width: 28px;
+  font-size: 18px;
+}
+
+.rl-zoom-action:hover,
+.rl-zoom-action:focus-visible {
+  background: rgba(17, 24, 39, 1);
 }
 
 .rl-zoom-close:hover,

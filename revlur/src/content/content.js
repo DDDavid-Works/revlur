@@ -24,6 +24,7 @@
   let blurValue = null; // "8px" readout
   let blurSlider = null;
   let zoomEl = null; // open zoom modal, if any
+  let zoomCopy = null; // copies the open zoom image (used by Ctrl/Cmd+C)
   let zoomToken = 0; // invalidates an in-flight capture when the user closes or exits
   let active = false;
   let anchor = null; // drag start point (viewport coords)
@@ -282,6 +283,7 @@
     zoomToken++;
     zoomEl?.remove();
     zoomEl = null;
+    zoomCopy = null;
     if (!active || !selection) return;
     selectionEl.hidden = false;
     toolbar.hidden = false;
@@ -359,7 +361,46 @@
     // The close button floats outside the image (top-right), never covering the content.
     const stage = document.createElement('div');
     stage.className = 'rl-zoom-stage';
-    stage.append(frame, closeBtn);
+    const actions = document.createElement('div');
+    actions.className = 'rl-zoom-actions';
+    const copyBtn = button('rl-zoom-action', 'Copy', 'Copy the image (Ctrl/Cmd+C)');
+    const saveBtn = button('rl-zoom-action', 'Save', 'Save as a PNG file');
+    const flash = (btn, text) => {
+      const label = btn.dataset.label ?? (btn.dataset.label = btn.textContent);
+      btn.textContent = text;
+      clearTimeout(btn._t);
+      btn._t = setTimeout(() => {
+        btn.textContent = label;
+      }, 1600);
+    };
+    const toBlob = () => new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+    // Writes only on a click or key press (a user gesture); Revlur never reads the clipboard.
+    const copyImage = async () => {
+      try {
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': toBlob() })]);
+        flash(copyBtn, 'Copied');
+      } catch {
+        flash(copyBtn, 'Copy failed');
+      }
+    };
+    const saveImage = async () => {
+      const blob = await toBlob();
+      if (!blob) return flash(saveBtn, 'Save failed');
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = geo.snapshotFileName(new Date());
+      shadow.append(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+      flash(saveBtn, 'Saved');
+    };
+    copyBtn.addEventListener('click', copyImage);
+    saveBtn.addEventListener('click', saveImage);
+    zoomCopy = copyImage;
+    actions.append(copyBtn, saveBtn, closeBtn);
+    stage.append(frame, actions);
     zoomEl.append(stage);
     // Click outside the image closes; keep the page underneath from scrolling or receiving clicks.
     zoomEl.addEventListener('click', (e) => {
@@ -455,6 +496,12 @@
 
   // Escape closes the zoom modal first; a second Escape exits Revlur.
   function onKeyDown(e) {
+    if (zoomCopy && (e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'c' && !window.getSelection()?.toString()) {
+      e.preventDefault();
+      e.stopPropagation();
+      zoomCopy();
+      return;
+    }
     if (e.key !== 'Escape' || e.isComposing) return; // Esc during IME composition belongs to the IME
     e.preventDefault();
     e.stopPropagation();

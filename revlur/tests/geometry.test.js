@@ -74,3 +74,8 @@ test('isReliableTarget accepts a paragraph, rejects big containers and thin sliv
   assert.equal(g.isReliableTarget({ x: 100, y: 100, w: 100, h: 100 }, sel), false); // covers only a third
   assert.equal(g.isReliableTarget({ x: 100, y: 100, w: 0, h: 0 }, sel), false); // hidden
 });
+
+test('snapshotFileName is sortable local time with zero padding', () => {
+  assert.equal(g.snapshotFileName(new Date(2026, 9, 6, 14, 30, 12)), 'revlur-2026-10-06-143012.png');
+  assert.equal(g.snapshotFileName(new Date(2026, 0, 2, 3, 4, 5)), 'revlur-2026-01-02-030405.png');
+});

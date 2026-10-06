@@ -86,9 +86,17 @@
     return overlapRatio(rect, sel) >= minCover && rect.w * rect.h <= maxAreaRatio * sel.w * sel.h;
   }
 
+  // revlur-2026-10-06-143012.png (local time)
+  function snapshotFileName(date) {
+    const p = (n) => String(n).padStart(2, '0');
+    const day = `${date.getFullYear()}-${p(date.getMonth() + 1)}-${p(date.getDate())}`;
+    const time = `${p(date.getHours())}${p(date.getMinutes())}${p(date.getSeconds())}`;
+    return `revlur-${day}-${time}.png`;
+  }
+
   const api = {
     MIN_SELECTION, clamp, clampPoint, normalizeRect, isSelectable, clampRect, roundRect, placeToolbar,
-    intersectViewport, fitZoom, cropRect, overlapRatio, isReliableTarget,
+    intersectViewport, fitZoom, cropRect, overlapRatio, isReliableTarget, snapshotFileName,
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else globalThis.__revlurGeometry = api;

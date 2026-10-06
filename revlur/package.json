@@ -1,6 +1,6 @@
 {
   "name": "revlur",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Revlur Chrome extension: development scripts only (the extension itself has no dependencies and no build step).",
   "scripts": {

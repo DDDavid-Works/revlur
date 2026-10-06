@@ -65,3 +65,6 @@ Load unpacked at `chrome://extensions` (Developer mode). Edge cases to cover: lo
 
 ## Icon
 Source: assets/icon.svg (not packaged). A red broken-square viewfinder (four equal corner brackets, symmetric on both axes) around a white R with a red dot like a period. The PNGs in src/icons (16/32/48/128) are rendered from it; re-render them if the SVG changes.
+
+## Phase 7: Copy and Save image (Zoom only)
+Added after the six planned phases, as a small additive step (decision: copy/save of the existing snapshot are local utilities, not the "sharing" the spec excludes). Buttons **Copy** and **Save** sit beside the close button above the Zoom image; Ctrl/Cmd+C also copies while Zoom is open (unless text is selected). Copy writes a PNG with navigator.clipboard.write on a user gesture (Revlur never reads the clipboard); Save downloads revlur-YYYY-MM-DD-HHMMSS.png through a blob anchor into the normal downloads folder. No new permissions. Button labels flash Copied / Saved / Copy failed. Still not added: text copy, annotation, sharing.
