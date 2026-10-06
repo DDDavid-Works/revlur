@@ -1,0 +1,15 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Revlur test: basic</title>
+<style>
+  body { font: 16px/1.6 system-ui, sans-serif; max-width: 720px; margin: 0 auto; padding: 24px; }
+  header { position: sticky; top: 0; background: #fff; border-bottom: 1px solid #ddd; padding: 12px 0; }
+</style>
+<header><strong>Sticky header</strong></header>
+<h1>Revlur basic test page</h1>
+<script>
+  for (let i = 1; i <= 40; i++) {
+    document.body.insertAdjacentHTML('beforeend',
+      `<p><strong>Paragraph ${i}.</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>`);
+  }
+</script>

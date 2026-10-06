@@ -1,0 +1,21 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Revlur test: edges</title>
+<style>
+  body { margin: 0; font: 16px/1.6 system-ui, sans-serif; width: 2400px; }
+  .fixed { position: fixed; top: 0; left: 0; right: 0; height: 56px; background: #1f2937; color: #fff; padding: 0 16px; line-height: 56px; z-index: 1000; }
+  main { padding: 80px 24px 24px; }
+  .cards { display: grid; grid-template-columns: repeat(6, 320px); gap: 16px; }
+  .card { height: 220px; background: #e5e7eb; border-radius: 8px; padding: 12px; }
+  .modal { position: fixed; top: 25%; left: 30%; width: 360px; padding: 20px; background: #fff; border: 1px solid #aaa; box-shadow: 0 8px 30px #0006; z-index: 2147483000; }
+</style>
+<div class="fixed">Fixed header (z-index 1000)</div>
+<div class="modal"><strong>Fake modal</strong> with a very high z-index.</div>
+<main>
+  <h1>Horizontal + vertical scroll</h1>
+  <div class="cards" id="cards"></div>
+</main>
+<script>
+  const c = document.getElementById('cards');
+  for (let i = 1; i <= 36; i++) c.insertAdjacentHTML('beforeend', `<div class="card">Card ${i}</div>`);
+</script>

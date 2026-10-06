@@ -1,0 +1,256 @@
+:host {
+  all: initial;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Blur: four panels around the clear hole; the page underneath is never modified. */
+.rl-blur-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483645;
+  pointer-events: none;
+}
+
+.rl-panel {
+  position: absolute;
+  pointer-events: auto; /* inert barrier: clicks on blurred content never reach the page */
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-backdrop-filter: blur(var(--rl-blur, 8px));
+  backdrop-filter: blur(var(--rl-blur, 8px));
+}
+
+/* Receives the drag; covers the whole viewport above the page. */
+.rl-capture {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  cursor: crosshair;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+/* Subtle indicator: white edge with dark outlines so it reads on any background. */
+.rl-selection {
+  position: fixed;
+  z-index: 2147483646;
+  box-sizing: border-box;
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.rl-hint,
+.rl-toolbar {
+  font: 500 12px/1.2 system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: #f9fafb;
+  background: rgba(17, 24, 39, 0.92);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.rl-hint {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 2147483647;
+  padding: 6px 12px;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.rl-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 8px 6px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.rl-brand {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.rl-blur-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #d1d5db;
+  cursor: default;
+}
+
+.rl-blur-control input[type='range'] {
+  width: 96px;
+  margin: 0;
+  accent-color: #f9fafb;
+  cursor: pointer;
+}
+
+.rl-value {
+  /* Fixed width (fits "20px") so the toolbar never resizes as the value changes. */
+  width: 4.5ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: #f9fafb;
+}
+
+.rl-btn {
+  all: unset;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  border-radius: 999px;
+  color: #f9fafb;
+  font: inherit;
+  cursor: pointer;
+}
+
+.rl-btn:hover,
+.rl-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.rl-close {
+  padding: 4px 9px;
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* Zoom modal: dims and blurs the whole page behind an enlarged snapshot of the selection. */
+.rl-zoom {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  -webkit-backdrop-filter: blur(var(--rl-blur, 8px));
+  backdrop-filter: blur(var(--rl-blur, 8px));
+}
+
+.rl-zoom-frame {
+  position: relative;
+  line-height: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.9), 0 12px 48px rgba(0, 0, 0, 0.55);
+}
+
+.rl-zoom-frame canvas {
+  display: block;
+}
+
+.rl-zoom-stage {
+  position: relative;
+  line-height: 0;
+}
+
+.rl-zoom-close {
+  all: unset;
+  position: absolute;
+  top: -38px; /* above the image's top-right corner, outside it */
+  right: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(17, 24, 39, 0.92);
+  box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.85);
+  color: #f9fafb;
+  font: 500 18px/28px system-ui, -apple-system, 'Segoe UI', sans-serif;
+  text-align: center;
+  cursor: pointer;
+}
+
+.rl-zoom-close:hover,
+.rl-zoom-close:focus-visible {
+  background: rgba(17, 24, 39, 1);
+}
+
+.rl-btn[aria-pressed='true'] {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+/* Drag handle for the toolbar. */
+.rl-brand {
+  cursor: grab;
+  touch-action: none;
+}
+
+.rl-brand:active {
+  cursor: grabbing;
+}
+
+/* Subtle fade-in only (no movement, nothing animated while scrolling). */
+@keyframes rl-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.rl-panel,
+.rl-toolbar,
+.rl-zoom {
+  animation: rl-fade 120ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rl-panel,
+  .rl-toolbar,
+  .rl-zoom {
+    animation: none;
+  }
+}
+
+/* Window outline shown whenever Revlur is active (selecting or focused). */
+.rl-frame {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  box-sizing: border-box;
+  border: 2px solid #ef4444;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+  animation: rl-fade 120ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rl-frame {
+    animation: none;
+  }
+}
+
+/* Zoom modal cursors: normal arrow on the dimmed backdrop, a laser-pointer dot over the image. */
+.rl-zoom {
+  cursor: default;
+}
+
+.rl-zoom-frame {
+  cursor: none;
+}
+
+.rl-laser {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 14px 5px rgba(239, 68, 68, 0.65);
+  pointer-events: none;
+  will-change: transform;
+}
