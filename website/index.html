@@ -35,7 +35,7 @@
     <div class="demo" id="demo-stage" aria-label="Interactive demo: drag to choose the area that stays clear">
       <div class="page" aria-hidden="true">
         <div class="page-bar"><i></i><i></i><i></i><b>app.example.com/dashboard</b></div>
-        <div class="page-body">
+        <div class="page-body"><div class="scroller">
           <aside><span class="w"></span><span class="w"></span><span class="w"></span><span class="w"></span><span class="w"></span></aside>
           <div class="grid">
             <h3>Quarterly overview</h3>
@@ -50,8 +50,8 @@
                 <polyline fill="none" stroke="#6b7280" stroke-width="2" points="0,100 40,96 80,92 120,90 160,84 200,80 240,76 280,70 320,66 360,60 400,56"/>
               </svg>
             </div>
-            <div class="rows"><span></span><span></span><span></span></div>
-          </div>
+            <div class="rows"><span></span><span></span><span></span></div><div class="tbl"><div class="th"><span>Account</span><span>Plan</span><span>MRR</span></div><div><span>Northwind</span><span>Team</span><span>$4,800</span></div><div><span>Globex</span><span>Business</span><span>$12,400</span></div><div><span>Initech</span><span>Team</span><span>$3,150</span></div><div><span>Umbrella</span><span>Business</span><span>$9,720</span></div><div><span>Hooli</span><span>Enterprise</span><span>$31,000</span></div><div><span>Stark Labs</span><span>Business</span><span>$15,600</span></div><div><span>Wayne Co.</span><span>Enterprise</span><span>$28,300</span></div><div><span>Acme Corp</span><span>Team</span><span>$5,200</span></div></div>
+          </div></div>
         </div>
       </div>
       <div class="blur" id="demo-blur-t"></div><div class="blur" id="demo-blur-b"></div><div class="blur" id="demo-blur-l"></div><div class="blur" id="demo-blur-r"></div>
@@ -63,7 +63,8 @@
       <input id="demo-range" type="range" min="0" max="20" value="8">
       <output id="demo-out">8px</output>
     </label>
-    <button class="btn btn-ghost btn-small" id="demo-zoom-btn" type="button">Zoom</button></div>
+    <button class="btn btn-ghost btn-small" id="demo-zoom-btn" type="button">Zoom</button>
+    <button class="btn btn-ghost btn-small" id="demo-scroll-btn" type="button" aria-pressed="false" title="The page is locked in place. Click to allow scrolling">Scroll</button></div>
   </section>
 
   <section class="section" id="features">
@@ -72,7 +73,7 @@
       <article><span class="n">1</span><h3>Select</h3><p>Click the icon and draw a box around the part of the page you care about. That is the only setup.</p></article>
       <article><span class="n">2</span><h3>Blur</h3><p>Everything else fades into the background, so your audience looks where you want. Clicks on the blurred area do nothing, so nothing opens by accident mid-demo.</p></article>
       <article><span class="n">3</span><h3>Zoom</h3><p>Blow up the selected area so the back row can read it. A red pointer dot shows up in screen shares, and you can copy or save the view as an image.</p></article>
-      <article><span class="n">4</span><h3>Lock-on</h3><p>Scroll without losing your place. The focus follows the chart, table or paragraph you picked as the page moves.</p></article>
+      <article><span class="n">4</span><h3>Lock-on</h3><p>Hold the page still while you present, so nothing shifts by accident. Press Scroll to let the page glide through your window, ideal for reading a long article.</p></article>
     </div>
   </section>
 

@@ -9,6 +9,23 @@
   const out = document.getElementById('demo-out');
   let sel = null; // {x, y, w, h} as fractions of the stage
   let start = null;
+  const scroller = stage.querySelector('.scroller');
+  const sbtn = document.getElementById('demo-scroll-btn');
+  let scrollOn = false; // Lock-on is the default: the page is held still until Scroll is pressed
+  let scrollY = 0;
+  let hintTimer = 0;
+
+  const maxScroll = () => Math.max(0, scroller.scrollHeight - stage.querySelector('.page-body').clientHeight);
+  function setScroll(y) {
+    scrollY = Math.min(Math.max(0, y), maxScroll());
+    scroller.style.transform = 'translateY(' + -scrollY + 'px)';
+  }
+  function say(text) {
+    hint.textContent = text;
+    hint.classList.remove('hide');
+    clearTimeout(hintTimer);
+    hintTimer = setTimeout(() => hint.classList.add('hide'), 2600);
+  }
 
   function place(el, x, y, w, h) {
     Object.assign(el.style, { left: x + 'px', top: y + 'px', width: Math.max(0, w) + 'px', height: Math.max(0, h) + 'px' });
@@ -39,7 +56,7 @@
   function defaultSel() {
     const r = stage.getBoundingClientRect(), c = stage.querySelector('.cards').getBoundingClientRect();
     const pad = 6;
-    return { x: (c.left - r.left - pad) / r.width, y: (c.top - r.top - pad) / r.height, w: (c.width + pad * 2) / r.width, h: (c.height + pad * 2) / r.height };
+    return { x: (c.left - r.left - pad) / r.width, y: (c.top - r.top + scrollY - pad) / r.height, w: (c.width + pad * 2) / r.width, h: (c.height + pad * 2) / r.height };
   }
 
   stage.addEventListener('pointerdown', (e) => {
@@ -60,7 +77,23 @@
   stage.addEventListener('pointerup', end);
   stage.addEventListener('pointercancel', end);
   range.addEventListener('input', render);
-  window.addEventListener('resize', render);
+  window.addEventListener('resize', () => { setScroll(scrollY); render(); });
+
+  // Scroll button: Lock-on (default) holds the page; pressed, the wheel moves the page through the window.
+  sbtn.addEventListener('click', () => {
+    scrollOn = !scrollOn;
+    sbtn.setAttribute('aria-pressed', String(scrollOn));
+    sbtn.title = scrollOn ? 'Scrolling is on. Click to lock the page again' : 'The page is locked in place. Click to allow scrolling';
+    say(scrollOn ? 'Scroll the page through your window' : 'Page locked in place');
+  });
+  // Only capture the wheel while Scroll is on, and let go at the ends so visitors are never trapped.
+  stage.addEventListener('wheel', (e) => {
+    if (!scrollOn) return;
+    const next = Math.min(Math.max(0, scrollY + e.deltaY), maxScroll());
+    if (next === scrollY) return;
+    e.preventDefault();
+    setScroll(next);
+  }, { passive: false });
 
   // Zoom: the selection enlarged over the still-blurred page (a clone of the mock page, scaled).
   const zoom = document.getElementById('demo-zoom');
