@@ -1,0 +1,617 @@
+# Reverse Blur — Chrome Extension V1
+
+We are building a Chrome Extension called **Reverse Blur**.
+
+## Product Concept
+
+Reverse Blur is a lightweight focus/distraction-reduction tool for webpages.
+
+The core interaction is:
+
+> **Select → Blur → Focus**
+
+The user selects an area of a webpage. Everything outside the selected area becomes blurred, while the selected area remains clear.
+
+The product should be useful for:
+
+- Reading
+- Focusing on a specific section of a webpage
+- Dashboards
+- Charts
+- Web applications
+- Presentations
+- Screen sharing
+- Teaching/demonstrations
+- Working with a specific area of a webpage
+
+Potential positioning:
+
+> **Focus on what matters.**
+
+Do not turn this into a full reader application or complicated productivity suite. The product should feel extremely fast and lightweight.
+
+---
+
+# Core UX
+
+## 1. Single-click activation
+
+The extension should activate immediately when the user clicks the Chrome extension icon.
+
+There should NOT be an intermediate popup asking:
+
+> "Activate Reverse Blur?"
+
+The flow should simply be:
+
+1. User visits a webpage.
+2. User clicks the Reverse Blur extension icon.
+3. Reverse Blur immediately activates.
+4. The cursor changes to a crosshair.
+5. User drags a rectangle around the area they want to focus on.
+6. On mouse release, everything outside that area becomes blurred.
+7. The selected area remains clear.
+8. A small floating toolbar becomes available.
+9. Pressing `Escape` exits Reverse Blur.
+
+The interaction should feel almost instantaneous.
+
+---
+
+# 2. Selection
+
+When Reverse Blur is active:
+
+- Show a crosshair cursor.
+- Allow the user to click and drag to create a rectangular selection.
+- Support dragging in any direction.
+- The selection should work regardless of where the user starts dragging.
+- The selected area remains visually clear.
+- Everything outside the selected area becomes blurred.
+- The selection should have a subtle visual border/indicator so the user understands what is focused.
+
+The implementation should preferably use an **overlay-based architecture** rather than modifying the webpage's actual DOM elements or CSS.
+
+Do not permanently alter the website.
+
+---
+
+# 3. Blur Overlay
+
+After selection:
+
+```text
++------------------------------------------------+
+|                                                |
+|              BLURRED PAGE                      |
+|                                                |
+|       +--------------------------+             |
+|       |                          |             |
+|       |       CLEAR AREA         |             |
+|       |                          |             |
+|       +--------------------------+             |
+|                                                |
+|              BLURRED PAGE                      |
+|                                                |
++------------------------------------------------+
+```
+
+Everything outside the selected area should receive the blur effect.
+
+Default blur intensity:
+
+**8px**
+
+The user should be able to adjust the blur intensity while Reverse Blur is active.
+
+Suggested range:
+
+**0px–20px**
+
+The overlay must not interfere with normal page rendering more than necessary.
+
+---
+
+# 4. Floating Toolbar
+
+Once an area has been selected, display a small unobtrusive floating toolbar.
+
+The toolbar should remain outside the blurred region so it stays readable.
+
+Suggested controls:
+
+```text
+Reverse Blur | Blur 8px | Center | Follow | ⚙ | ×
+```
+
+The exact visual design can be improved during implementation.
+
+The toolbar should:
+
+- Be compact.
+- Avoid covering important content.
+- Stay above the webpage.
+- Remain usable while the page is scrolled.
+- Use a high z-index.
+- Avoid triggering the webpage underneath.
+- Be visually clean and modern.
+
+Do not create a large popup-style interface.
+
+---
+
+# 5. Center
+
+Add a **Center** feature.
+
+A small button/control should be available near the selected area's corner and/or in the floating toolbar.
+
+When the user clicks **Center**:
+
+1. Keep the selected area clear.
+2. Smoothly scroll the webpage so the selected area is positioned approximately in the center of the viewport.
+3. Keep the surrounding content blurred.
+4. Do not use browser-level zoom.
+
+Example:
+
+```text
+Before:
+
++--------------------------------+
+|                                |
+|                                |
+|                         [FOCUS]|
+|                                |
++--------------------------------+
+
+After Center:
+
++--------------------------------+
+|                                |
+|       +-------------+          |
+|       |    FOCUS    |          |
+|       +-------------+          |
+|                                |
++--------------------------------+
+```
+
+Use smooth scrolling where possible.
+
+Do not implement actual page zoom in V1.
+
+Treat **Center** and **Zoom** as separate concepts:
+
+- Center = reposition the selected area.
+- Zoom = enlarge the selected area.
+
+Only Center is required for V1.
+
+---
+
+# 6. Follow Mode
+
+Add a **Follow** feature.
+
+This is an important feature for presentations, demonstrations, dashboards, and long webpages.
+
+When Follow is enabled:
+
+- Reverse Blur should attempt to keep the selected focus area centered/focused as the user scrolls.
+- The surrounding page should remain blurred.
+- The user should still be able to scroll normally.
+- Follow can be toggled on/off from the floating toolbar.
+- Follow should be OFF by default.
+- `Escape` should still exit Reverse Blur.
+
+Example:
+
+```text
+Select chart
+     ↓
+Center
+     ↓
+Follow ON
+     ↓
+User scrolls
+     ↓
+Reverse Blur keeps the focused content
+in the preferred viewport position when possible
+```
+
+### Important technical requirement
+
+Do NOT attempt to build AI/object recognition for Follow.
+
+Instead, use the webpage's DOM and the selected region where possible.
+
+The implementation should attempt to associate the selected area with the underlying DOM element(s).
+
+If a precise DOM element cannot be reliably identified, gracefully fall back to tracking the selected region using viewport/document coordinates.
+
+The feature should never break normal page scrolling.
+
+If the tracked element disappears, becomes hidden, or can no longer be followed, disable Follow gracefully rather than producing errors.
+
+---
+
+# 7. Re-select
+
+The user should be able to select a different area without reloading the page.
+
+Provide a simple way to enter selection mode again, such as:
+
+**Re-select**
+
+This can be included in the toolbar or settings.
+
+Flow:
+
+```text
+Focused area
+     ↓
+Re-select
+     ↓
+Crosshair
+     ↓
+New selection
+     ↓
+New focused area
+```
+
+The previous selection should be replaced.
+
+---
+
+# 8. Exit
+
+Pressing:
+
+**Escape**
+
+should completely exit Reverse Blur.
+
+This should:
+
+- Remove the blur overlay.
+- Remove the selection.
+- Remove the floating toolbar.
+- Disable Follow.
+- Restore the page to its original visual state.
+- Restore the normal cursor.
+
+Clicking the `×` button should perform the same action.
+
+The extension should not leave any permanent changes on the webpage.
+
+---
+
+# 9. Keyboard Shortcut
+
+Support a Chrome extension keyboard shortcut for activating Reverse Blur.
+
+The shortcut should be configurable through Chrome's extension shortcut settings.
+
+Do not hard-code a shortcut that cannot be changed.
+
+---
+
+# Technical Requirements
+
+Use:
+
+- Chrome Extension
+- Manifest V3
+- JavaScript
+- HTML
+- CSS
+
+Avoid frameworks unless there is a strong technical reason to use one.
+
+Keep dependencies minimal.
+
+No backend is required for V1.
+
+No database is required.
+
+No user accounts.
+
+No cloud services.
+
+No payments.
+
+No AI.
+
+No analytics.
+
+No synchronization.
+
+The extension should work locally and store only local settings if needed.
+
+---
+
+# Architecture
+
+Prefer this architecture:
+
+```text
+Chrome Extension
+        |
+        v
+Background Service Worker
+        |
+        v
+Content Script
+        |
+        v
+Reverse Blur Overlay
+        |
+        +---- Selection Layer
+        |
+        +---- Blur Layer
+        |
+        +---- Focus/Clear Layer
+        |
+        +---- Toolbar
+        |
+        +---- Center
+        |
+        +---- Follow
+```
+
+The webpage itself should remain as untouched as possible.
+
+Use an isolated extension container/shadow DOM where useful to prevent webpage CSS from interfering with the Reverse Blur UI.
+
+The Reverse Blur UI should also be protected from the webpage's CSS.
+
+---
+
+# Important Edge Cases
+
+Test and account for:
+
+- Normal webpages
+- Long webpages
+- Responsive webpages
+- Pages with fixed headers
+- Pages with sticky navigation
+- Pages with sticky sidebars
+- Pages with modals
+- Pages with iframes where possible
+- Small selections
+- Very large selections
+- Selection at the edge of the viewport
+- Dragging from bottom-right to top-left
+- Horizontal scrolling
+- Vertical scrolling
+- Browser resizing
+- Dynamic webpages
+- Pages where DOM elements move
+- Pages where the selected element disappears
+- Pages with very high z-index elements
+
+Do not attempt to solve every possible webpage immediately. Prioritize reliable behavior on normal modern webpages.
+
+---
+
+# Visual Design
+
+The UI should feel:
+
+- Minimal
+- Modern
+- Lightweight
+- Professional
+- Unobtrusive
+
+Avoid:
+
+- Large popup interfaces
+- Excessive configuration
+- Bright distracting colors
+- Complex menus
+- Unnecessary animations
+
+The focus should remain on the webpage.
+
+The blur transition and Center movement can have subtle animation, but performance is more important than visual effects.
+
+---
+
+# Suggested Project Structure
+
+```text
+reverse-blur/
+├── manifest.json
+├── README.md
+├── src/
+│   ├── background/
+│   │   └── service-worker.js
+│   │
+│   ├── content/
+│   │   ├── content.js
+│   │   └── content.css
+│   │
+│   └── icons/
+│       ├── icon16.png
+│       ├── icon32.png
+│       ├── icon48.png
+│       └── icon128.png
+│
+└── screenshots/
+```
+
+A popup is NOT required for normal activation.
+
+If you create a popup, it should only be used later for things such as:
+
+- Persistent settings
+- About
+- Shortcut instructions
+- Optional preferences
+
+It should NOT be part of the normal activation flow.
+
+---
+
+# Development Process
+
+Build this incrementally.
+
+## Phase 1 — Extension foundation
+
+Create the Manifest V3 extension and make sure it loads successfully through:
+
+```text
+chrome://extensions
+```
+
+using Developer Mode → Load unpacked.
+
+Clicking the extension icon should activate the content script/tool.
+
+---
+
+## Phase 2 — Selection
+
+Implement:
+
+- Activation
+- Crosshair cursor
+- Rectangle selection
+- Reverse drag direction
+- Selection indicator
+
+Test this before implementing blur.
+
+---
+
+## Phase 3 — Reverse Blur
+
+Implement:
+
+- Blur outside selection
+- Clear selected region
+- Adjustable blur intensity
+- Floating toolbar
+- Escape to exit
+
+---
+
+## Phase 4 — Center
+
+Implement:
+
+- Center button
+- Smooth positioning of selected area
+- Selection remains clear during movement
+- Toolbar remains usable
+
+Test with:
+
+- Top of page
+- Middle of page
+- Bottom of page
+- Long pages
+- Fixed headers
+
+---
+
+## Phase 5 — Follow
+
+Implement:
+
+- Follow toggle
+- DOM-element tracking where possible
+- Coordinate fallback
+- Maintain focus while scrolling
+- Graceful failure if the tracked element disappears
+
+Test on:
+
+- Articles
+- Search results
+- Dashboards
+- Tables
+- Long webpages
+- Pages with sticky headers
+
+---
+
+## Phase 6 — Re-select and polish
+
+Implement:
+
+- Re-select
+- Improved toolbar positioning
+- Better transitions
+- Settings controls
+- Keyboard behavior
+- Cleanup
+
+---
+
+# Competitor Awareness
+
+Before finalizing the UX, briefly research existing Chrome extensions/tools that provide similar functionality, particularly:
+
+- Focus Mask
+- Focus Window
+- Chrome Spotlight
+- TextFocus
+- SimpleReads
+- Focus Mode Blur
+- PageBlur
+
+Do not simply copy their UX.
+
+The goal is to understand what already exists and deliberately make Reverse Blur feel simpler and more useful.
+
+The core differentiator should be the interaction:
+
+> **Select → Blur → Center → Follow**
+
+The product should feel like a lightweight focus/presentation tool rather than another complicated reading extension.
+
+---
+
+# V1 Scope Discipline
+
+Do NOT add these unless required for the core experience:
+
+- Accounts
+- Backend
+- Cloud sync
+- AI
+- OCR
+- Analytics
+- Social features
+- Sharing
+- Payments
+- Subscription system
+- Browser-level zoom
+- Complex page annotation
+- Highlighting
+- Note-taking
+- Full reader mode
+
+The goal is to get a polished working MVP as quickly as possible.
+
+---
+
+# Important Implementation Rule
+
+Do not assume the implementation works simply because the code compiles.
+
+After each major phase:
+
+1. Explain what was implemented.
+2. Explain which files changed.
+3. Give exact Chrome testing steps.
+4. Identify known limitations.
+5. Fix obvious issues before moving to the next phase.
+
+Start with **Phase 1 — Extension foundation**, then proceed incrementally.
+
+Do not over-engineer the initial implementation.
