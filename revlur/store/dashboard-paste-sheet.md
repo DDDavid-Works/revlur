@@ -106,7 +106,7 @@ Used to remember one number, the user's preferred blur level, on their own devic
 ## 4. Distribution tab
 | Field | Value |
 |---|---|
-| Visibility | **YOUR CALL**: Public, or Unlisted (only people with the link can install; can be switched to Public later) |
+| Visibility | **Unlisted** (decided Oct 8). Only people with the link can install it and it stays out of store search; it can be switched to Public later without a new item. It is still reviewed. |
 | Regions | All regions (default) |
 | Pricing | Free |
 
@@ -118,7 +118,7 @@ Open any normal web page, click the Revlur icon in the toolbar (pin it from the 
 
 ## 6. Account settings
 - Contact email: set and verified (the listing shows `dddavid.works@gmail.com` in its text).
-- Trader status: **YOUR CALL** (the EU asks developers to declare trader or non-trader). Answer for how you will actually publish Revlur.
+- Trader status: **Trader** (decided Oct 8). The store will ask for trader contact details (expect a postal address, a phone number and an email) and may verify them; for users in the EU they are shown on the listing. Have those ready, and use details you are happy to make public. Check the dashboard's own wording for exactly what it asks and where it shows it.
 
 ## 7. Submit
 - [ ] Every tab shows a green check or no red warnings.
@@ -127,6 +127,6 @@ Open any normal web page, click the Revlur icon in the toolbar (pin it from the 
 
 ## After approval
 - [ ] Copy the store URL (https://chromewebstore.google.com/detail/...).
-- [ ] Update the website: point "Add to Chrome" buttons at the store URL, and change the waitlist wording ("Chrome extension · coming soon", "Join the waitlist"). Tell me and I'll do it, with the `?v=` bump.
+- [ ] Update the website: point "Add to Chrome" buttons at the store URL (while the item is Unlisted that link works for anyone who has it, so it is fine to use on the site), and change the waitlist wording ("Chrome extension · coming soon", "Join the waitlist"). Tell me and I'll do it, with the `?v=` bump.
 - [ ] Email the waitlist (the privacy page promises one launch email, and deletion afterwards).
 - [ ] Add the store URL to `README.md` and the launch checklist in `CLAUDE.md`.
