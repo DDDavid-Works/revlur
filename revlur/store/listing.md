@@ -51,7 +51,7 @@ GOOD TO KNOW
 - It follows the main page scroll. Scrollable panels and frames inside a page are not tracked.
 - Zoom shows a still snapshot of the page as it looked when you pressed Zoom.
 
-Questions or ideas: [support email or website URL]
+Questions or ideas: dddavid.works@gmail.com
 
 ### Graphic assets
 
@@ -109,7 +109,7 @@ The quoted text below is the extension-only version; the page on the site is the
 >
 > **Permissions.** Revlur uses the activeTab, scripting and storage permissions only for the purposes described above. It requests no access to websites in advance and does not run on pages you have not activated it on.
 >
-> **Changes and contact.** If this policy changes, the new version will be posted here. Contact: [email].
+> **Changes and contact.** If this policy changes, the new version will be posted here. Contact: dddavid.works@gmail.com.
 
 ## Test instructions for reviewers (optional field)
 
