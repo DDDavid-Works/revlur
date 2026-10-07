@@ -153,3 +153,17 @@ footer { border-top: 1px solid var(--line); display: flex; justify-content: spac
 .cta-sub a { color: var(--muted); border-bottom: 1px solid var(--line); }
 .cta-sub a:hover { color: var(--text); }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Privacy policy page */
+.doc { max-width: 720px; margin: 0 auto; padding: 72px 20px 24px; }
+.doc h1 { font-size: clamp(32px, 5vw, 48px); margin-bottom: 8px; }
+.doc h2 { font-size: 22px; margin: 40px 0 12px; letter-spacing: 0; }
+.doc p, .doc li { color: var(--muted); font-size: 16px; }
+.doc strong { color: var(--text); }
+.doc ul { padding-left: 20px; display: grid; gap: 10px; }
+.doc a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+.doc a:hover { color: var(--red); }
+.doc .updated { font-size: 14px; margin: 0 0 28px; }
+.doc .lead-doc { color: var(--text); font-size: 19px; }
+footer a { text-decoration: underline; text-underline-offset: 3px; }
+footer a:hover { color: var(--text); }

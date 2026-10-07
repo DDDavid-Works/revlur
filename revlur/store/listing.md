@@ -95,7 +95,9 @@ Certifications (tick all three):
 - I do not use or transfer user data for purposes unrelated to my item's single purpose.
 - I do not use or transfer user data to determine creditworthiness or for lending purposes.
 
-### Privacy policy (host this on the website, for example at /privacy)
+### Privacy policy (hosted at website-waitlist/privacy.html, which also covers the waitlist form; paste its public URL into the dashboard)
+
+The quoted text below is the extension-only version; the page on the site is the fuller one and is the source of truth.
 
 > **Revlur privacy policy**
 >
