@@ -6,7 +6,7 @@ Placeholders in [square brackets] need your input.
 ## Store listing tab
 
 **Name** (max 75)
-Revlur: Focus on what matters
+Revlur: Focus. Present.
 
 **Summary** (max 132)
 Drag a box on any page and blur everything else. Zoom, present and read with focus. No accounts, no tracking.
@@ -62,7 +62,7 @@ Questions or ideas: [support email or website URL]
   3. "Read one section at a time": an article with a paragraph clear and the toolbar showing Scroll on.
   4. "Hold the page still": a presentation-style slide or dashboard with Lock-on.
   5. "Nothing to set up": the toolbar close-up with the blur slider.
-- Small promo tile 440x280 (optional but recommended): icon, "Revlur", "Focus on what matters."
+- Small promo tile 440x280 (optional but recommended): icon, "Revlur", "Focus. Present."
 
 ## Privacy tab
 
