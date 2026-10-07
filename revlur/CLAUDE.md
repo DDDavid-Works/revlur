@@ -75,3 +75,11 @@ Ash-blue UI theme with a coral-red accent (content.css custom properties on :hos
 
 ## Scroll lock redesign
 Decision: Lock-on now means "hold the page still" (default), with a Scroll button to allow scrolling, replacing the element-tracking follow mode (judged low value: scrolling a locked-to-content hole through blurred text is unreadable). Implementation is in content.js: a capture-phase wheel handler (preventDefault, with an exception for inner scrollers inside the window) plus a document scroll listener that resets the window scroll position. This is a deliberate, opt-out exception to "never block page scrolling"; the toolbar Scroll button and the note keep it discoverable.
+
+## Launch checklist
+Things that must happen when the sites go live or the extension is submitted (none are done yet unless ticked).
+- [ ] **Restrict the Web3Forms access key to the live domain(s).** The waitlist form (website-waitlist/waitlist.js, ACCESS_KEY) is unrestricted until launch by decision. In the Web3Forms dashboard, allow every address the site is served on (both the bare domain and www if both work). After restricting, localhost/127.0.0.1 submissions stop working, so send one real test submission from the live site and confirm the email arrives.
+- [ ] Host website-waitlist/ (and website/ if used) on a static host; privacy page lives at /privacy.html.
+- [ ] Paste the live privacy-policy URL into the Chrome Web Store dashboard (text in revlur/store/listing.md).
+- [ ] Add real screenshots and the promo tile; the support contact is dddavid.works@gmail.com.
+- [ ] Bump the version in revlur/manifest.json and package.json before each store upload, then run npm run package.
