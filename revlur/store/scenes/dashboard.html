@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northwind Analytics: Quarterly overview</title>
+<style>
+  * { box-sizing: border-box; }
+  a { text-decoration: none; color: inherit; }
+  body { margin: 0; font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #111827; background: #f3f4f6; }
+  .top { display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 28px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+  .top b { font-size: 17px; } .top span { color: #6b7280; font-size: 14px; }
+  .shell { display: grid; grid-template-columns: 210px 1fr; min-height: calc(100vh - 56px); }
+  aside { background: #fff; border-right: 1px solid #e5e7eb; padding: 22px 18px; }
+  aside a { display: block; padding: 8px 12px; margin-bottom: 4px; border-radius: 8px; color: #374151; font-size: 14px; }
+  aside a.on { background: #eef2ff; color: #3730a3; font-weight: 600; }
+  main { padding: 28px 34px 60px; }
+  h1 { margin: 0 0 4px; font-size: 24px; } .sub { margin: 0 0 22px; color: #6b7280; }
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+  .card { background: #fff; border-radius: 12px; padding: 16px 18px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .card small { color: #6b7280; } .card strong { display: block; font-size: 28px; line-height: 1.2; } .up { color: #16a34a; font-weight: 600; font-size: 13px; } .dn { color: #dc2626; font-weight: 600; font-size: 13px; }
+  .panel { background: #fff; border-radius: 12px; padding: 18px 20px; box-shadow: 0 1px 3px rgba(0,0,0,.08); margin-bottom: 20px; }
+  .panel h2 { margin: 0 0 12px; font-size: 16px; }
+  .chart { height: 220px; } .chart svg { width: 100%; height: 100%; display: block; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; } th, td { text-align: left; padding: 9px 6px; border-bottom: 1px solid #eef0f3; } th { color: #6b7280; font-weight: 600; }
+  td.num { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<div class="top"><b>Northwind Analytics</b><span>Q3 2026 &middot; Updated 9:41 AM</span></div>
+<div class="shell">
+  <aside>
+    <a class="on" href="#">Overview</a><a href="#">Revenue</a><a href="#">Customers</a><a href="#">Retention</a><a href="#">Reports</a><a href="#">Settings</a>
+  </aside>
+  <main>
+    <h1>Quarterly overview</h1>
+    <p class="sub">Revenue, customers and retention across all regions.</p>
+    <div class="cards">
+      <div class="card"><small>Revenue</small><strong>$482k</strong><span class="up">+12.4%</span></div>
+      <div class="card"><small>Active users</small><strong>31,208</strong><span class="up">+3.1%</span></div>
+      <div class="card"><small>Churn</small><strong>1.9%</strong><span class="dn">&minus;0.2%</span></div>
+      <div class="card"><small>Net promoter score</small><strong>58</strong><span class="up">+4</span></div>
+    </div>
+    <div class="panel">
+      <h2>Revenue by month</h2>
+      <div class="chart">
+        <svg viewBox="0 0 720 220" preserveAspectRatio="none">
+          <g stroke="#e5e7eb" stroke-width="1"><line x1="0" y1="40" x2="720" y2="40"/><line x1="0" y1="90" x2="720" y2="90"/><line x1="0" y1="140" x2="720" y2="140"/><line x1="0" y1="190" x2="720" y2="190"/></g>
+          <polyline fill="none" stroke="#9ca3af" stroke-width="2.5" points="0,170 65,162 130,166 195,150 260,152 325,140 390,134 455,128 520,120 585,116 650,108 720,100"/>
+          <polyline fill="none" stroke="#e5565b" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round" points="0,175 65,150 130,158 195,118 260,126 325,88 390,100 455,64 520,76 585,40 650,52 720,34"/>
+        </svg>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Top accounts</h2>
+      <table>
+        <tr><th>Account</th><th>Plan</th><th>Region</th><th class="num">MRR</th></tr>
+        <tr><td>Hooli</td><td>Enterprise</td><td>North America</td><td class="num">$31,000</td></tr>
+        <tr><td>Wayne Co.</td><td>Enterprise</td><td>Europe</td><td class="num">$28,300</td></tr>
+        <tr><td>Stark Labs</td><td>Business</td><td>North America</td><td class="num">$15,600</td></tr>
+        <tr><td>Globex</td><td>Business</td><td>Asia Pacific</td><td class="num">$12,400</td></tr>
+        <tr><td>Umbrella</td><td>Business</td><td>Europe</td><td class="num">$9,720</td></tr>
+        <tr><td>Acme Corp</td><td>Team</td><td>North America</td><td class="num">$5,200</td></tr>
+        <tr><td>Northwind</td><td>Team</td><td>Asia Pacific</td><td class="num">$4,800</td></tr>
+        <tr><td>Initech</td><td>Team</td><td>Europe</td><td class="num">$3,150</td></tr>
+      </table>
+    </div>
+  </main>
+</div>
+</body>
+</html>

@@ -83,5 +83,9 @@ Things that must happen when the sites go live or the extension is submitted (no
 - **Cache busting (Oct 8):** Cloudflare caches styles.css/demo.js/waitlist.js at the edge for 4h (max-age=14400) while the HTML is not cached, so a deploy can serve new HTML with stale CSS/JS (this broke the demo once). The HTML links carry a version query (`?v=YYYYMMDDx`); **bump it in website-waitlist/index.html, privacy.html and website/index.html whenever styles.css, demo.js or waitlist.js change.** Alternative: a Cloudflare cache rule or shorter Cache-Control on the origin.
 - [ ] Host website-waitlist/ (and website/ if used) on a static host; privacy page lives at /privacy.html.
 - [ ] Paste the live privacy-policy URL into the Chrome Web Store dashboard (text in revlur/store/listing.md).
-- [ ] Add real screenshots and the promo tile; the support contact is dddavid.works@gmail.com.
+- [x] Promo tile done: revlur/store/promo-tile-440x280.png (24-bit, source promo-tile.svg).
+- [ ] Capture the five screenshots following revlur/store/screenshots.md (staged pages in revlur/store/scenes/); the support contact is dddavid.works@gmail.com.
 - [ ] Bump the version in revlur/manifest.json and package.json before each store upload, then run npm run package.
+
+## Resize (Oct 8)
+The single selection can be resized after it is made: eight handles (corners + edges, `.rl-handle` in content.css) sit on the focused area; dragging one moves only its edge(s) via `geo.resizeRect` (clamped to the viewport, 8px minimum, no flipping). Blur and outline follow live; the toolbar re-places on release. Handles hide while Zoom is open and during Re-select. Still one selection and no moving the whole area (Re-select replaces it); not in the original spec, added as a small additive step.
