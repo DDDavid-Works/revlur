@@ -57,6 +57,7 @@
     place(bl, 0, y, x, h);
     place(br, x + w, y, W - x - w, h);
     Object.assign(hole.style, { display: 'block', left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px' });
+    flipHandles(x, y, w, h, W, H);
   }
 
   const point = (e) => {
@@ -246,6 +247,47 @@
     runIntro();
   }
   tabBtns.forEach((b) => b.addEventListener('click', () => showTab(b.dataset.tab)));
+
+  // ---- Resizing: drag a handle to move its edge(s); the blur follows live (same rules as the extension).
+  const EDGE = 14, MIN_PX = 24;
+  function flipHandles(x, y, w, h, W, H) {
+    hole.classList.toggle('in-n', y < EDGE);
+    hole.classList.toggle('in-w', x < EDGE);
+    hole.classList.toggle('in-s', y + h > H - EDGE);
+    hole.classList.toggle('in-e', x + w > W - EDGE);
+  }
+  let rs = null; // {dir, px, py, rect:{l,t,r,b}} while a handle is held
+  function startResize(e) {
+    const dir = e.target.dataset && e.target.dataset.dir;
+    if (!dir || !committed || e.button !== 0) return;
+    e.preventDefault();
+    e.stopPropagation();
+    stopIntro(true); // grabbing a handle ends the intro for good
+    const W = stage.clientWidth, H = stage.clientHeight;
+    rs = { dir, px: e.clientX, py: e.clientY, rect: { l: sel.x * W, t: sel.y * H, r: (sel.x + sel.w) * W, b: (sel.y + sel.h) * H } };
+    e.target.setPointerCapture(e.pointerId);
+  }
+  function moveResize(e) {
+    if (!rs) return;
+    const W = stage.clientWidth, H = stage.clientHeight;
+    const dx = e.clientX - rs.px, dy = e.clientY - rs.py, d = rs.dir;
+    const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
+    let { l, t, r, b } = rs.rect;
+    if (d.includes('w')) l = clamp(l + dx, 0, r - MIN_PX);
+    if (d.includes('e')) r = clamp(r + dx, l + MIN_PX, W);
+    if (d.includes('n')) t = clamp(t + dy, 0, b - MIN_PX);
+    if (d.includes('s')) b = clamp(b + dy, t + MIN_PX, H);
+    sel = { x: l / W, y: t / H, w: (r - l) / W, h: (b - t) / H };
+    render();
+  }
+  const endResize = () => { rs = null; };
+  hole.querySelectorAll('.hh').forEach((h) => {
+    h.addEventListener('pointerdown', startResize);
+    h.addEventListener('pointermove', moveResize);
+    h.addEventListener('pointerup', endResize);
+    h.addEventListener('pointercancel', endResize);
+    h.addEventListener('click', (e) => e.stopPropagation());
+  });
 
   setMode(false);
   if ('IntersectionObserver' in window) {

@@ -195,9 +195,20 @@ footer { border-top: 1px solid var(--line); display: flex; justify-content: spac
 .infobox dl { margin: 6px 0 0; }
 .infobox dt { font-size: .82em; color: #6b7280; margin-top: 4px; }
 .infobox dd { margin: 0; overflow-wrap: anywhere; }
-.hb { position: absolute; width: 20px; height: 20px; border: 0 solid var(--red); pointer-events: none; filter: drop-shadow(0 0 1px rgba(255,255,255,.9)); }
-.hb-nw { left: -9.5px; top: -9.5px; border-width: 2px 0 0 2px; }
-.hb-ne { right: -9.5px; top: -9.5px; border-width: 2px 2px 0 0; }
-.hb-se { right: -9.5px; bottom: -9.5px; border-width: 0 2px 2px 0; }
-.hb-sw { left: -9.5px; bottom: -9.5px; border-width: 0 0 2px 2px; }
-.demo.selecting .hb { display: none; } /* brackets appear once the area is chosen, like the extension */
+/* Resize handles, as in the extension: red corner brackets and edge bars just outside the chosen area. They flip
+   inside when the area is near the demo's edge (classes in-n/in-s/in-e/in-w set by demo.js). */
+.hole { --g: 6px; --t: 2px; --a: 20px; --b: 30px; --o: calc(var(--g) + var(--t) + 1.5px); --vn: calc(-1 * var(--o)); --vs: var(--vn); --vw: var(--vn); --ve: var(--vn); }
+.hole.in-n { --vn: var(--g); } .hole.in-s { --vs: var(--g); } .hole.in-w { --vw: var(--g); } .hole.in-e { --ve: var(--g); }
+.hh { position: absolute; box-sizing: border-box; pointer-events: auto; touch-action: none; filter: drop-shadow(0 0 1px rgba(255,255,255,.9)); }
+.hh::after { content: ''; position: absolute; inset: -8px; } /* bigger invisible grab area */
+.hh-nw, .hh-ne, .hh-se, .hh-sw { width: var(--a); height: var(--a); border: 0 solid var(--red); }
+.hh-nw { left: var(--vw); top: var(--vn); border-width: var(--t) 0 0 var(--t); cursor: nwse-resize; }
+.hh-ne { right: var(--ve); top: var(--vn); border-width: var(--t) var(--t) 0 0; cursor: nesw-resize; }
+.hh-se { right: var(--ve); bottom: var(--vs); border-width: 0 var(--t) var(--t) 0; cursor: nwse-resize; }
+.hh-sw { left: var(--vw); bottom: var(--vs); border-width: 0 0 var(--t) var(--t); cursor: nesw-resize; }
+.hh-n, .hh-s, .hh-e, .hh-w { background: var(--red); }
+.hh-n { left: calc(50% - var(--b) / 2); top: var(--vn); width: var(--b); height: var(--t); cursor: ns-resize; }
+.hh-s { left: calc(50% - var(--b) / 2); bottom: var(--vs); width: var(--b); height: var(--t); cursor: ns-resize; }
+.hh-e { right: var(--ve); top: calc(50% - var(--b) / 2); width: var(--t); height: var(--b); cursor: ew-resize; }
+.hh-w { left: var(--vw); top: calc(50% - var(--b) / 2); width: var(--t); height: var(--b); cursor: ew-resize; }
+.demo.selecting .hh { display: none; } /* handles appear once the area is chosen */
