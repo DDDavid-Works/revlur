@@ -3,7 +3,7 @@
 // Web3Forms dashboard. While ACCESS_KEY is empty the form says signup isn't connected instead of
 // pretending to succeed.
 const ENDPOINT = 'https://api.web3forms.com/submit';
-const ACCESS_KEY = '';
+const ACCESS_KEY = 'b3ed5eae-3d96-4184-9e54-de87d5e66788';
 
 document.querySelectorAll('form[data-waitlist]').forEach((form) => {
   const email = form.querySelector('input[name=email]');
