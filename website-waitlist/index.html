@@ -38,8 +38,12 @@
 
   <section class="demo-wrap" id="demo">
     <div class="demo-card">
+    <div class="demo-tabs" role="tablist" aria-label="Demo page">
+      <button class="demo-tab" role="tab" id="tab-dashboard" data-tab="dashboard" aria-selected="true" type="button">Dashboard</button>
+      <button class="demo-tab" role="tab" id="tab-article" data-tab="article" aria-selected="false" type="button">Article</button>
+    </div>
     <div class="demo" id="demo-stage" aria-label="Interactive demo: drag to choose the area that stays clear">
-      <div class="page" aria-hidden="true">
+      <div class="page" data-page="dashboard" data-intro=".cards" aria-hidden="true">
         <div class="page-bar"><i></i><i></i><i></i><b>app.example.com/dashboard</b></div>
         <div class="page-body"><div class="scroller">
           <aside><span class="w"></span><span class="w"></span><span class="w"></span><span class="w"></span><span class="w"></span></aside>
@@ -59,6 +63,31 @@
             <div class="rows"><span></span><span></span><span></span></div><div class="tbl"><div class="th"><span>Account</span><span>Plan</span><span>MRR</span></div><div><span>Northwind</span><span>Team</span><span>$4,800</span></div><div><span>Globex</span><span>Business</span><span>$12,400</span></div><div><span>Initech</span><span>Team</span><span>$3,150</span></div><div><span>Umbrella</span><span>Business</span><span>$9,720</span></div><div><span>Hooli</span><span>Enterprise</span><span>$31,000</span></div><div><span>Stark Labs</span><span>Business</span><span>$15,600</span></div><div><span>Wayne Co.</span><span>Enterprise</span><span>$28,300</span></div><div><span>Acme Corp</span><span>Team</span><span>$5,200</span></div></div>
           </div></div>
         </div>
+      </div>
+      <div class="page" data-page="article" data-intro=".art-lead" aria-hidden="true" hidden>
+        <div class="page-bar"><i></i><i></i><i></i><b>wiki.example.org/Aurora</b></div>
+        <div class="page-body"><div class="scroller">
+          <aside class="wk-nav"><span class="wk-logo">Wiki</span><span class="w"></span><span class="w"></span><span class="w"></span><span class="w"></span><span class="w"></span><span class="w"></span></aside>
+          <div class="art">
+            <div class="wk-tabs"><b>Article</b><span>Talk</span><span class="wk-sp"></span><span>Read</span><span>Edit</span></div>
+            <h3 class="wk-title">Aurora</h3>
+            <p class="art-lead"><b>An aurora</b> is a natural light display in the night sky, seen mostly near the Arctic and Antarctic. It appears as shifting ribbons, curtains and arcs of <a>green</a>, <a>red</a> and violet light.</p>
+            <aside class="infobox">
+              <div class="ib-title">Aurora</div>
+              <div class="ib-img"></div>
+              <dl><dt>Also called</dt><dd>Northern and southern lights</dd><dt>Altitude</dt><dd>80 to 300 km</dd><dt>Colours</dt><dd>Green, red, violet</dd><dt>Best season</dt><dd>September to March</dd></dl>
+            </aside>
+            <p>Auroras are most common in a ring around each magnetic pole. During strong solar activity they can be seen much farther from the poles, sometimes at mid latitudes.</p>
+            <h4>Causes</h4>
+            <p>Auroras occur when charged particles from the Sun, carried by the <a>solar wind</a>, are steered by Earth's magnetic field toward the poles. There they collide with oxygen and nitrogen high in the atmosphere, and the excited atoms release the energy as light.</p>
+            <h4>Colours</h4>
+            <p>Green, the most common colour, comes from oxygen about 100 km up. Red appears higher, above 200 km. Nitrogen adds blue and purple fringes along the lower edge of the display.</p>
+            <h4>Observing</h4>
+            <p>The best views come on clear, dark nights, far from city lights. Activity follows the 11-year <a>solar cycle</a> and peaks near solar maximum, with the strongest displays often around the March and September equinoxes.</p>
+            <h4>In culture</h4>
+            <p>Auroras feature in the folklore of many northern peoples, who described them as spirits, torches or messengers. Today they draw travellers to places such as Iceland, northern Norway and Alaska.</p>
+          </div>
+        </div></div>
       </div>
       <div class="blur" id="demo-blur-t"></div><div class="blur" id="demo-blur-b"></div><div class="blur" id="demo-blur-l"></div><div class="blur" id="demo-blur-r"></div>
       <div class="hole" id="demo-hole"></div>
