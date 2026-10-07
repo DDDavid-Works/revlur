@@ -54,7 +54,7 @@ Load unpacked at `chrome://extensions` (Developer mode). Edge cases to cover: lo
 
 ## Phase 6 decisions
 - Toolbar can be dragged by its "Revlur" label; position resets on Re-select. Auto placement otherwise (below, above, or docked).
-- Fades are CSS-only, 120ms, opacity only, off under prefers-reduced-motion. Never animate blur radius or positions.
+- Fades are CSS-only, 120ms, opacity only, off under prefers-reduced-motion. Never animate blur radius or the hole position. One exception: opening Zoom grows the image from the selection to the enlarged view (Web Animations API, transform + opacity only, 200ms, skipped under reduce-motion, closing is instant); the website demo mirrors it.
 - Icon click first tries a plain toggle message and only injects on failure; a newly injected script disposes any stale copy (`window.__revlur.dispose()`), so extension reloads don't need tab refreshes.
 - Esc is ignored during IME composition (`isComposing`).
 - Deliberately not added: a gear/settings menu (the only setting is the persisted blur), single-letter shortcuts (they would collide with typing in page fields).

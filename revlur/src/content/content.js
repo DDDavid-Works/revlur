@@ -410,6 +410,20 @@
     selectionEl.hidden = true;
     toolbar.hidden = true;
     shadow.append(zoomEl);
+
+    // Grow from where the selection was to the enlarged view (transform and opacity only, so it stays
+    // on the GPU). Skipped under reduce-motion; closing is instant.
+    if (!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      const dx = sel.x + sel.w / 2 - vw / 2;
+      const dy = sel.y + sel.h / 2 - vh / 2;
+      stage.animate(
+        [
+          { transform: `translate(${dx}px, ${dy}px) scale(${1 / scale})`, opacity: 0.35 },
+          { transform: 'none', opacity: 1 },
+        ],
+        { duration: 200, easing: 'cubic-bezier(0.2, 0.8, 0.25, 1)' },
+      );
+    }
   }
 
   // Selecting: crosshair capture layer on, no blur. Used on activation and for Re-select.

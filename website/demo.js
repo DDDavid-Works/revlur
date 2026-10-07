@@ -138,6 +138,16 @@
     Object.assign(frame.style, { width: fw + 'px', height: fh + 'px', left: (W - fw) / 2 + 'px', top: (H - fh) / 2 + 'px' });
     zoom.hidden = false;
     hint.classList.add('hide');
+    // Grow from the selection to the enlarged view (same effect as the extension; transform + opacity only).
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      frame.animate(
+        [
+          { transform: 'translate(' + (x + w / 2 - W / 2) + 'px,' + (y + h / 2 - H / 2) + 'px) scale(' + 1 / s + ')', opacity: 0.35 },
+          { transform: 'none', opacity: 1 },
+        ],
+        { duration: 200, easing: 'cubic-bezier(0.2, 0.8, 0.25, 1)' }
+      );
+    }
   }
   function closeZoom() { zoom.hidden = true; }
 
