@@ -36,14 +36,14 @@ code, kbd { font: 0.9em ui-monospace, Consolas, monospace; background: var(--pan
 .btn-ghost:hover { border-color: var(--muted); filter: none; color: var(--text); }
 :focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
 
-.hero { text-align: center; padding: 88px 20px 40px; max-width: 800px; margin: 0 auto; }
+.hero { text-align: center; padding: 88px 20px 20px; max-width: 800px; margin: 0 auto; }
 .eyebrow { color: var(--red); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; font-size: 13px; margin: 0 0 16px; }
 h1 { font-size: clamp(40px, 7vw, 68px); line-height: 1.08; margin: 0 0 20px; letter-spacing: -.02em; }
 .accent { color: var(--red); }
 .lead { color: var(--muted); font-size: 19px; max-width: 580px; margin: 0 auto 32px; }
 .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
-.demo-wrap { max-width: 920px; margin: 32px auto 0; padding: 0 20px; }
+.demo-wrap { max-width: 920px; margin: 14px auto 0; padding: 0 20px; }
 .demo {
   position: relative; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; border: 1px solid var(--line);
   box-shadow: 0 30px 80px rgba(0,0,0,.45); background: #f3f4f6; touch-action: none; user-select: none;
@@ -149,7 +149,7 @@ footer { border-top: 1px solid var(--line); display: flex; justify-content: spac
 .wl-msg { flex-basis: 100%; margin: 4px 0 0; min-height: 1.5em; font-size: 14px; color: var(--muted); }
 .wl-msg.ok { color: #7fd6a4; }
 .wl-msg.err { color: #ff9a9d; }
-.cta-sub { margin: 22px 0 0; }
+.cta-sub { margin: 26px 0 0; }
 .cta-sub a { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border-radius: 999px; font-size: 15px; font-weight: 600; color: var(--text); background: rgba(229,86,91,.12); border: 1px solid rgba(229,86,91,.55); transition: background .15s, border-color .15s; }
 .cta-sub a:hover { background: rgba(229,86,91,.24); border-color: var(--red); }
 .cta-arrow { display: inline-block; color: var(--red); animation: cta-bob 1.8s ease-in-out infinite; }
@@ -180,4 +180,3 @@ footer a:hover { color: var(--text); }
 .ghost::before { left: 12px; top: 0; width: 2px; height: 26px; }
 .ghost::after { top: 12px; left: 0; height: 2px; width: 26px; }
 
-.wl-note { margin: 12px 0 0; font-size: 13px; color: var(--muted); }
