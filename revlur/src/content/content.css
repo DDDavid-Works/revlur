@@ -283,3 +283,58 @@
   pointer-events: none;
   will-change: transform;
 }
+
+/* Resize handles: red corner brackets and edge bars just outside the focused area. Only the handles take
+   pointer input, so the page inside the clear window keeps working. --pn/--pw are the top/left line
+   positions from the area's top/left edge; --ps/--pe are from its bottom/right edge. They flip inward
+   when the area touches the viewport edge so the handles stay on screen and reachable. */
+.rl-handles {
+  --g: 6px; /* gap between the area and a handle */
+  --t: 2px; /* line thickness */
+  --a: 20px; /* corner arm length */
+  --b: 30px; /* edge bar length */
+  --pn: calc(-1 * (var(--g) + var(--t)));
+  --pw: var(--pn);
+  --ps: var(--g);
+  --pe: var(--g);
+  position: fixed;
+  z-index: 2147483646;
+  pointer-events: none;
+}
+
+.rl-handles.rl-in-n { --pn: var(--g); }
+.rl-handles.rl-in-w { --pw: var(--g); }
+.rl-handles.rl-in-s { --ps: calc(-1 * (var(--g) + var(--t))); }
+.rl-handles.rl-in-e { --pe: calc(-1 * (var(--g) + var(--t))); }
+
+.rl-handle {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: auto;
+  touch-action: none;
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.9));
+}
+
+/* Bigger invisible grab area than the thin line. */
+.rl-handle::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+}
+
+.rl-h-nw, .rl-h-ne, .rl-h-se, .rl-h-sw {
+  width: var(--a);
+  height: var(--a);
+  border: 0 solid var(--rl-accent);
+}
+
+.rl-h-nw { left: var(--pw); top: var(--pn); border-width: var(--t) 0 0 var(--t); cursor: nwse-resize; }
+.rl-h-ne { left: calc(100% + var(--pe) + var(--t) - var(--a)); top: var(--pn); border-width: var(--t) var(--t) 0 0; cursor: nesw-resize; }
+.rl-h-se { left: calc(100% + var(--pe) + var(--t) - var(--a)); top: calc(100% + var(--ps) + var(--t) - var(--a)); border-width: 0 var(--t) var(--t) 0; cursor: nwse-resize; }
+.rl-h-sw { left: var(--pw); top: calc(100% + var(--ps) + var(--t) - var(--a)); border-width: 0 0 var(--t) var(--t); cursor: nesw-resize; }
+
+.rl-h-n, .rl-h-s, .rl-h-e, .rl-h-w { background: var(--rl-accent); }
+.rl-h-n { left: calc(50% - var(--b) / 2); top: var(--pn); width: var(--b); height: var(--t); cursor: ns-resize; }
+.rl-h-s { left: calc(50% - var(--b) / 2); top: calc(100% + var(--ps)); width: var(--b); height: var(--t); cursor: ns-resize; }
+.rl-h-e { left: calc(100% + var(--pe)); top: calc(50% - var(--b) / 2); width: var(--t); height: var(--b); cursor: ew-resize; }
+.rl-h-w { left: var(--pw); top: calc(50% - var(--b) / 2); width: var(--t); height: var(--b); cursor: ew-resize; }

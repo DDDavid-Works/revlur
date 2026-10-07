@@ -64,3 +64,13 @@ test('snapshotFileName is sortable local time with zero padding', () => {
   assert.equal(g.snapshotFileName(new Date(2026, 9, 6, 14, 30, 12)), 'revlur-2026-10-06-143012.png');
   assert.equal(g.snapshotFileName(new Date(2026, 0, 2, 3, 4, 5)), 'revlur-2026-01-02-030405.png');
 });
+
+test('resizeRect moves only the dragged edges, clamped to the viewport and a minimum size', () => {
+  const r = { x: 100, y: 100, w: 200, h: 100 };
+  assert.deepEqual(g.resizeRect(r, 'e', 50, 999, 800, 600), { x: 100, y: 100, w: 250, h: 100 });
+  assert.deepEqual(g.resizeRect(r, 'nw', -30, -20, 800, 600), { x: 70, y: 80, w: 230, h: 120 });
+  assert.deepEqual(g.resizeRect(r, 'se', 9999, 9999, 800, 600), { x: 100, y: 100, w: 700, h: 500 });
+  assert.deepEqual(g.resizeRect(r, 'w', -9999, 0, 800, 600), { x: 0, y: 100, w: 300, h: 100 });
+  assert.deepEqual(g.resizeRect(r, 'w', 9999, 0, 800, 600), { x: 292, y: 100, w: 8, h: 100 }); // stops at the minimum
+  assert.deepEqual(g.resizeRect(r, 's', 0, -9999, 800, 600), { x: 100, y: 100, w: 200, h: 8 });
+});

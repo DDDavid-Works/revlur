@@ -18,6 +18,7 @@
   let blurLayer = null; // four backdrop-filter panels around the clear hole
   let panels = null; // {t, b, l, r}
   let selectionEl = null; // selection indicator
+  let handlesEl = null; // resize handles around the focused area
   let hint = null;
   let frameEl = null; // red window outline, shown only while choosing an area
   let toolbar = null;
@@ -63,6 +64,7 @@
   function drawSelection(rect) {
     if (!rect) {
       selectionEl.hidden = true;
+      drawHandles(null);
       return;
     }
     const r = geo.roundRect(rect);
@@ -133,8 +135,63 @@
   function setSelection(rect) {
     selection = rect;
     drawSelection(rect);
+    drawHandles(rect);
     drawBlur(rect);
     positionToolbar();
+  }
+
+  // Eight grab handles on the focused area. Dragging one moves its edge(s); the blur follows live.
+  function buildHandles() {
+    const wrap = document.createElement('div');
+    wrap.className = 'rl-handles';
+    for (const dir of ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w']) {
+      const h = document.createElement('div');
+      h.className = `rl-handle rl-h-${dir}`;
+      let start = null;
+      h.addEventListener('pointerdown', (e) => {
+        if (e.button !== 0 || !selection) return;
+        e.preventDefault();
+        h.setPointerCapture(e.pointerId);
+        start = { px: e.clientX, py: e.clientY, rect: selection };
+      });
+      h.addEventListener('pointermove', (e) => {
+        if (!start) return;
+        const { w, h: vh } = viewportSize();
+        const rect = geo.resizeRect(start.rect, dir, e.clientX - start.px, e.clientY - start.py, w, vh);
+        selection = rect;
+        drawSelection(rect);
+        drawBlur(rect);
+        drawHandles(rect);
+      });
+      const end = () => {
+        if (!start) return;
+        start = null;
+        positionToolbar(); // re-place the toolbar once, not on every move
+      };
+      h.addEventListener('pointerup', end);
+      h.addEventListener('pointercancel', end);
+      for (const type of ['mousedown', 'mouseup', 'click', 'dblclick', 'contextmenu']) {
+        h.addEventListener(type, (e) => e.stopPropagation());
+      }
+      wrap.append(h);
+    }
+    return wrap;
+  }
+
+  function drawHandles(rect) {
+    if (!rect) {
+      handlesEl.hidden = true;
+      return;
+    }
+    const r = geo.roundRect(rect);
+    const { w: vw, h: vh } = viewportSize();
+    const edge = 14; // handles flip inside when the area is this close to the viewport edge
+    handlesEl.classList.toggle('rl-in-n', r.y < edge);
+    handlesEl.classList.toggle('rl-in-w', r.x < edge);
+    handlesEl.classList.toggle('rl-in-s', r.y + r.h > vh - edge);
+    handlesEl.classList.toggle('rl-in-e', r.x + r.w > vw - edge);
+    handlesEl.hidden = false;
+    setBox(handlesEl, r.x, r.y, r.w, r.h);
   }
 
   // ---- Lock-on: the page is held still by default; the Scroll button lets it move ----
@@ -245,6 +302,7 @@
     zoomCopy = null;
     if (!active || !selection) return;
     selectionEl.hidden = false;
+    drawHandles(selection);
     toolbar.hidden = false;
     positionToolbar();
   }
@@ -408,6 +466,7 @@
       zoomEl.addEventListener(type, (e) => e.stopPropagation());
     }
     selectionEl.hidden = true;
+    handlesEl.hidden = true;
     toolbar.hidden = true;
     shadow.append(zoomEl);
 
@@ -448,6 +507,7 @@
     frameEl.hidden = true;
     hint.hidden = true;
     drawSelection(rect);
+    drawHandles(rect);
     drawBlur(rect);
     blurLayer.hidden = false;
     toolbar.hidden = false;
@@ -625,9 +685,10 @@
     hint = document.createElement('div');
     hint.className = 'rl-hint';
     hint.textContent = HINT_TEXT;
+    handlesEl = buildHandles();
     toolbar = buildToolbar();
 
-    shadow.append(style, blurLayer, frameEl, capture, selectionEl, toolbar, hint);
+    shadow.append(style, blurLayer, frameEl, capture, selectionEl, handlesEl, toolbar, hint);
     document.documentElement.appendChild(host);
     enterSelecting();
 
@@ -649,7 +710,7 @@
     window.removeEventListener('keydown', onKeyDown, true);
     window.removeEventListener('resize', onResize);
     host?.remove();
-    host = shadow = frameEl = scrollBtn = zoomEl = capture = blurLayer = panels = selectionEl = hint = toolbar = blurSlider = blurValue = null;
+    host = shadow = frameEl = scrollBtn = zoomEl = capture = blurLayer = panels = selectionEl = handlesEl = hint = toolbar = blurSlider = blurValue = null;
     anchor = selection = null;
   }
 

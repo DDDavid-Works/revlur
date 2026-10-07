@@ -71,6 +71,20 @@
     return { x, y, w, h };
   }
 
+  // Drag one handle ('n','s','e','w','ne','nw','se','sw') by (dx, dy) from the rect it started at.
+  // The moved edges stay inside the viewport and never shrink the rect below `min`.
+  function resizeRect(rect, handle, dx, dy, vw, vh, min = MIN_SELECTION) {
+    let left = rect.x;
+    let top = rect.y;
+    let right = rect.x + rect.w;
+    let bottom = rect.y + rect.h;
+    if (handle.includes('w')) left = clamp(left + dx, 0, right - min);
+    if (handle.includes('e')) right = clamp(right + dx, left + min, vw);
+    if (handle.includes('n')) top = clamp(top + dy, 0, bottom - min);
+    if (handle.includes('s')) bottom = clamp(bottom + dy, top + min, vh);
+    return { x: left, y: top, w: right - left, h: bottom - top };
+  }
+
   // revlur-2026-10-06-143012.png (local time)
   function snapshotFileName(date) {
     const p = (n) => String(n).padStart(2, '0');
@@ -81,7 +95,7 @@
 
   const api = {
     MIN_SELECTION, clamp, clampPoint, normalizeRect, isSelectable, clampRect, roundRect, placeToolbar,
-    intersectViewport, fitZoom, cropRect, snapshotFileName,
+    intersectViewport, fitZoom, cropRect, snapshotFileName, resizeRect,
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else globalThis.__revlurGeometry = api;
