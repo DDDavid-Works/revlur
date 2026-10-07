@@ -21,7 +21,7 @@ Both are in `store/scenes/` and need no server; open them straight from disk.
 ## The five screenshots
 | # | Caption (add in an image editor, optional) | Page | Steps | Must be visible |
 |---|---|---|---|---|
-| 1 | Drag a box. Blur the rest. | dashboard | Select the whole row of four stat cards. | Red selection outline, blurred surroundings, the toolbar below the selection |
+| 1 | Drag a box. Blur the rest. | dashboard | Select the whole row of four stat cards. | Red selection outline with the red resize handles (corner brackets and edge bars) around it, blurred surroundings, the toolbar below the selection. Don't hover a handle, so none looks highlighted |
 | 2 | Zoom in for the back row | dashboard | Select the revenue chart, click **Zoom**. Move the mouse over the image. | The enlarged chart, the red laser dot, and the copy, save and close icons above it |
 | 3 | Focus on what you're reading | article | Select about six lines of the body text. Press **Scroll** so it shows as on. | Sharp text, blurred sidebars, ads and comments, the Scroll button highlighted |
 | 4 | Hold the page still while you present | dashboard | Select the accounts table. Leave **Scroll** off. | The locked state, with the toolbar showing the default controls |
@@ -29,6 +29,7 @@ Both are in `store/scenes/` and need no server; open them straight from disk.
 
 ## Rules for every shot
 - Same toolbar position and selection style across the set, and the same 8px blur apart from shot 5.
+- Shots 1, 3, 4 and 5 show the resize handles around the clear area. That's expected and helps explain the product.
 - Nothing personal in the frame: no real names, tabs, bookmarks or extensions.
 - Text in the clear area should be readable at store-listing size (about 640px wide).
 - Do not show other extensions' icons.

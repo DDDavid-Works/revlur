@@ -170,7 +170,7 @@
       };
       h.addEventListener('pointerup', end);
       h.addEventListener('pointercancel', end);
-      for (const type of ['mousedown', 'mouseup', 'click', 'dblclick', 'contextmenu']) {
+      for (const type of ['pointerdown', 'pointerup', 'mousedown', 'mouseup', 'click', 'dblclick', 'contextmenu']) {
         h.addEventListener(type, (e) => e.stopPropagation());
       }
       wrap.append(h);

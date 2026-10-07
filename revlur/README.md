@@ -21,7 +21,7 @@ node --test tests/geometry.test.js
 ## Using it
 - Click the icon (or your shortcut), drag a rectangle in any direction. Everything outside it is blurred.
 - In Zoom, the copy icon (or Ctrl/Cmd+C) puts the image on the clipboard and the download icon saves it as a PNG. Neither needs extra permissions.
-- Toolbar: **Blur** slider (0-20px, remembered), **Zoom**, **Scroll**, **Re-select**, **x**. Drag the "Revlur" label to move the toolbar out of the way; it returns to automatic placement on Re-select.
+- Toolbar: **Blur** slider (0-20px, remembered), **Zoom**, **Scroll**, **Re-select**, **x**. Drag the red corner brackets or edge bars around the clear area to resize it. Drag the "Revlur" label to move the toolbar out of the way; it returns to automatic placement on Re-select.
 - `Esc` closes Zoom first, then exits Revlur. Clicking the icon again also exits.
 - Motion is a 120ms fade only, and is disabled with the system "reduce motion" setting.
 

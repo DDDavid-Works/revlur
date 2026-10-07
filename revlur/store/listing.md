@@ -35,6 +35,7 @@ WHAT YOU GET
 - Zoom: show the selected area enlarged over the blurred page. A red laser-pointer dot follows your mouse, and it is drawn on the page, so it also shows up in screen shares that don't capture the real cursor.
 - Copy or save the zoomed view as a PNG image.
 - Lock-on: the page is held still while you present, so nothing shifts by accident. Press Scroll to let the page glide through your window, which is handy for reading a long article.
+- Resize: drag the red corner brackets or edge bars around the clear area to fine-tune it, any time.
 - Re-select: pick a different area without reloading the page.
 - A small toolbar you can drag out of the way.
 - A safe barrier: clicks on the blurred area do nothing, so nothing opens by accident in the middle of a demo.
@@ -115,4 +116,4 @@ The quoted text below is the extension-only version; the page on the site is the
 
 ## Test instructions for reviewers (optional field)
 
-Open any normal web page, click the Revlur icon in the toolbar (pin it from the puzzle-piece menu), and drag a rectangle. Everything outside it should blur. Use the toolbar to try Zoom, Scroll and Re-select. Press Esc to exit. No account or sign-in is needed.
+Open any normal web page, click the Revlur icon in the toolbar (pin it from the puzzle-piece menu), and drag a rectangle. Everything outside it should blur. Drag the red corner brackets or edge bars to resize the area, and use the toolbar to try Zoom, Scroll and Re-select. Press Esc to exit. No account or sign-in is needed.
