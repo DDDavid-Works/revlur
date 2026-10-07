@@ -66,13 +66,13 @@
       <div class="hint" id="demo-hint">Drag to select an area</div>
       <div class="zoom" id="demo-zoom" hidden><div class="zoom-frame" id="zoom-frame"><div class="zoom-clip"><div class="zoom-inner" id="zoom-inner"></div></div><i class="dot" id="zoom-dot"></i><button class="zoom-x" id="zoom-x" aria-label="Close zoom">&times;</button></div></div>
     </div>
-    <div class="controls"><label class="slider">Blur
-      <input id="demo-range" type="range" min="0" max="20" value="8">
-      <output id="demo-out">8px</output>
-    </label>
-    <button class="btn btn-ghost btn-small" id="demo-zoom-btn" type="button">Zoom</button>
-    <button class="btn btn-ghost btn-small" id="demo-reselect-btn" type="button">Re-select</button>
-    <button class="btn btn-ghost btn-small" id="demo-scroll-btn" type="button" aria-pressed="false" title="The page is locked in place. Click to allow scrolling">Scroll</button></div>
+    <div class="controls"><div class="tbar" role="toolbar" aria-label="Revlur demo toolbar"><span class="tb-brand">Revlur</span><label class="slider">Blur
+        <input id="demo-range" type="range" min="0" max="20" value="8">
+        <output id="demo-out">8px</output>
+      </label>
+      <button class="tb-btn" id="demo-zoom-btn" type="button">Zoom</button>
+      <button class="tb-btn" id="demo-scroll-btn" type="button" aria-pressed="false" title="The page is locked in place. Click to allow scrolling">Scroll</button>
+      <button class="tb-btn" id="demo-reselect-btn" type="button">Re-select</button></div></div>
   </div>
   </section>
 
