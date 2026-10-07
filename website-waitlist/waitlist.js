@@ -1,7 +1,9 @@
-// Waitlist signup. Set ENDPOINT to a form service URL (Formspree, Basin, Getform, ...) that accepts
-// a JSON POST with an "email" field. Left empty, the form says signup isn't connected instead of
+// Waitlist signup via Web3Forms (https://web3forms.com). The access key is public by design: it can only
+// send submissions to the inbox it was created for, and can be limited to this site's domain in the
+// Web3Forms dashboard. While ACCESS_KEY is empty the form says signup isn't connected instead of
 // pretending to succeed.
-const ENDPOINT = '';
+const ENDPOINT = 'https://api.web3forms.com/submit';
+const ACCESS_KEY = '';
 
 document.querySelectorAll('form[data-waitlist]').forEach((form) => {
   const email = form.querySelector('input[name=email]');
@@ -13,16 +15,22 @@ document.querySelectorAll('form[data-waitlist]').forEach((form) => {
     e.preventDefault();
     if (form.elements.company.value) return say('Thanks, you are on the list.', 'ok'); // honeypot: bots fill this
     if (!email.checkValidity() || !email.value.trim()) return say('Please enter a valid email address.', 'err');
-    if (!ENDPOINT) return say('Signup is not connected yet. Please check back soon.', 'err');
+    if (!ACCESS_KEY) return say('Signup is not connected yet. Please check back soon.', 'err');
     btn.disabled = true;
     say('Adding you...');
     try {
       const res = await fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ email: email.value.trim() }),
+        body: JSON.stringify({
+          access_key: ACCESS_KEY,
+          subject: 'New Revlur waitlist signup',
+          from_name: 'Revlur waitlist',
+          email: email.value.trim(),
+        }),
       });
-      if (!res.ok) throw new Error(String(res.status));
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.success) throw new Error(data.message || String(res.status));
       form.reset();
       say('Thanks! You are on the list. We will email you at launch.', 'ok');
     } catch {
