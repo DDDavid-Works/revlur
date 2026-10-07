@@ -157,8 +157,8 @@ footer { border-top: 1px solid var(--line); display: flex; justify-content: spac
 /* Demo controls styled as the real extension toolbar (ash-blue surface, slate text, coral accent). */
 .demo-card .controls { display: flex; justify-content: center; }
 .tbar { display: inline-flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 10px 12px; padding: 6px 10px 6px 16px; border-radius: 999px; background: #d5e0ec; color: #243447; font: 500 13px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif; box-shadow: 0 0 0 1px rgba(60,85,115,.32), 0 4px 14px rgba(43,58,74,.28); }
-.tb-brand { display: inline-flex; align-items: center; gap: 7px; padding-right: 12px; border-right: 1px solid rgba(60,85,115,.32); font-size: 14px; font-weight: 700; letter-spacing: .02em; }
-.tb-brand img { display: block; border-radius: 5px; }
+.tb-brand { padding-right: 12px; border-right: 1px solid rgba(60,85,115,.32); font-size: 14px; font-weight: 700; letter-spacing: .02em; }
+.tb-dot { color: var(--red); }
 .tbar .slider { margin: 0; gap: 8px; color: #587089; font-size: 13px; }
 .tbar .slider input { width: 110px; accent-color: #e5565b; }
 .tbar .slider output { width: 34px; text-align: right; color: #243447; }

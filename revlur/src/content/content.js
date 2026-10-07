@@ -598,24 +598,6 @@
     return b;
   }
 
-  // The app icon, drawn as DOM nodes (same shapes as assets/icon.svg), shown beside the name.
-  function brandMark() {
-    const NS = 'http://www.w3.org/2000/svg';
-    const svg = document.createElementNS(NS, 'svg');
-    for (const [k, v] of Object.entries({ viewBox: '0 0 96 96', width: '20', height: '20', 'aria-hidden': 'true' })) svg.setAttribute(k, v);
-    const add = (tag, attrs, text) => {
-      const el = document.createElementNS(NS, tag);
-      for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
-      if (text) el.textContent = text;
-      svg.appendChild(el);
-    };
-    add('rect', { width: '96', height: '96', rx: '20', fill: '#3d5166' });
-    add('path', { d: 'M17 33V17H33M63 17H79V33M79 63V79H63M33 79H17V63', fill: 'none', stroke: '#e5565b', 'stroke-width': '6', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
-    add('text', { x: '20.2', y: '67.3', 'font-size': '54', 'font-weight': '700', 'font-family': 'Arial, Helvetica, sans-serif', fill: '#f4f7fa' }, 'R');
-    add('circle', { cx: '66.8', cy: '62.3', r: '5', fill: '#e5565b' });
-    return svg;
-  }
-
   function buildToolbar() {
     const bar = document.createElement('div');
     bar.className = 'rl-toolbar';
@@ -624,9 +606,12 @@
 
     const brand = document.createElement('span');
     brand.className = 'rl-brand';
-    const word = document.createElement('span');
-    word.textContent = 'Revlur';
-    brand.append(brandMark(), word);
+    brand.append('Revlur');
+    const dot = document.createElement('span'); // the icon's red dot, as a period after the name
+    dot.className = 'rl-dot';
+    dot.textContent = '.';
+    dot.setAttribute('aria-hidden', 'true');
+    brand.append(dot);
     brand.title = 'Drag to move the toolbar';
     makeToolbarDraggable(brand);
 

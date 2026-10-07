@@ -339,18 +339,15 @@
 .rl-h-e { left: calc(100% + var(--pe)); top: calc(50% - var(--b) / 2); width: var(--t); height: var(--b); cursor: ew-resize; }
 .rl-h-w { left: var(--pw); top: calc(50% - var(--b) / 2); width: var(--t); height: var(--b); cursor: ew-resize; }
 
-/* Brand label: logo mark, bold name and a divider, so it reads as the toolbar's title and not as another control. */
+/* Brand label: bold name with the icon's red dot as a period, then a divider, so it reads as the toolbar's title
+   and not as another control. */
 .rl-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
   padding-right: 12px;
   border-right: 1px solid var(--rl-line);
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.02em;
 }
-.rl-brand svg {
-  flex: none;
-  display: block;
+.rl-dot {
+  color: var(--rl-accent);
 }
