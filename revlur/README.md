@@ -1,6 +1,6 @@
 ﻿# Revlur
 
-Focus. Present. Show one thing, blur the rest: select an area of a page and everything else is blurred.
+Focus on what matters. Show one thing, blur the rest: select an area of a page and everything else is blurred.
 
 ## Load in Chrome
 1. Open `chrome://extensions` and enable **Developer mode**.

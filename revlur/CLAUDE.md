@@ -4,7 +4,7 @@ Official product name: **Revlur** (short for "reverse blur"). Use "Revlur" in th
 
 Chrome Extension (Manifest V3) for focus/presentation: **Select â†’ Blur â†’ Zoom â†’ Lock-on**.
 The user drags a rectangle; everything outside stays blurred, the selection stays clear.
-Positioning (store name, page title): "Focus. Present." Hero headline: "Show one thing. Blur the rest." Spec lives in `../revlur.txt`.
+Positioning (store name, page title): "Focus on what matters." Hero headline: "Show one thing. Blur the rest." Spec lives in `../revlur.txt`.
 
 ## Stack and constraints
 - Plain JavaScript, HTML, CSS. No framework, no build step, minimal/no dependencies.
