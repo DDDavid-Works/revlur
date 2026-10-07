@@ -19,13 +19,13 @@ English
 
 ### Description
 
-Revlur blurs everything on a web page except the part you choose.
+Show one thing. Blur the rest. Revlur blurs everything on a web page except the part you choose.
 
 Click the icon, drag a rectangle, and the rest of the page fades into a soft blur. What's inside the rectangle stays sharp, so your audience, your students or your own eyes go straight to it. There is no setup, no menu and no account.
 
 HOW IT WORKS
 1. Click the Revlur icon (or press the shortcut you set).
-2. Drag a rectangle in any direction around what matters.
+2. Drag a rectangle in any direction around the part you want to show.
 3. Everything outside it is blurred. Press Esc to leave.
 
 WHAT YOU GET
