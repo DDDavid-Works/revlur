@@ -62,6 +62,7 @@
   };
 
   stage.addEventListener('pointerdown', (e) => {
+    stopIntro(true);
     if (committed) return; // after selecting, only Re-select starts a new box
     start = point(e);
     sel = null;
@@ -90,6 +91,7 @@
   }
   // Re-select (or Esc): back to a clear page with the crosshair, like the toolbar's Re-select.
   function reselect() {
+    stopIntro(false);
     sel = null;
     scrollOn = false;
     sbtn.setAttribute('aria-pressed', 'false');
@@ -163,5 +165,73 @@
   zoom.addEventListener('pointerleave', () => { dot.style.display = 'none'; });
   document.addEventListener('keydown', (e) => { if (e.key !== 'Escape') return; if (!zoom.hidden) closeZoom(); else if (committed) reselect(); });
 
+  // ---- Intro: once, when the demo scrolls into view, a ghost cursor drags a box around the stat cards,
+  // the rest blurs, then the demo resets to a clear page for the visitor. Any touch cancels it.
+  const ghost = document.getElementById('demo-ghost');
+  let introRaf = 0, introTimer = 0, introRunning = false, introDone = false;
+  const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+  const lerp = (a, b, k) => a + (b - a) * k;
+
+  function parkGhost() { ghost.style.opacity = '0'; }
+  function stopIntro(resetPage) {
+    introDone = true; // never replay once the visitor has interacted
+    if (!introRunning) return;
+    introRunning = false;
+    cancelAnimationFrame(introRaf);
+    clearTimeout(introTimer);
+    parkGhost();
+    if (resetPage && !committed) { sel = null; render(); }
+  }
+
+  function runIntro() {
+    if (introDone || introRunning || committed || sel) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { introDone = true; return; }
+    introDone = true;
+    introRunning = true;
+    const r = stage.getBoundingClientRect(), c = stage.querySelector('.cards').getBoundingClientRect(), pad = 6;
+    const target = { x: (c.left - r.left - pad) / r.width, y: (c.top - r.top - pad) / r.height, w: (c.width + pad * 2) / r.width, h: (c.height + pad * 2) / r.height };
+    const from = { x: Math.min(0.9, target.x + target.w * 0.6), y: Math.min(0.92, target.y + target.h + 0.3) };
+    const T1 = 800, T2 = T1 + 200, T3 = T2 + 1000;
+    const t0 = performance.now();
+    hint.classList.add('hide');
+    ghost.style.opacity = '1';
+    const put = (x, y) => { ghost.style.left = x * stage.clientWidth + 'px'; ghost.style.top = y * stage.clientHeight + 'px'; };
+    put(from.x, from.y);
+    (function step(now) {
+      if (!introRunning) return;
+      const t = now - t0;
+      if (t < T1) {
+        const k = ease(t / T1);
+        put(lerp(from.x, target.x, k), lerp(from.y, target.y, k));
+      } else if (t < T2) {
+        put(target.x, target.y);
+      } else if (t < T3) {
+        const k = ease((t - T2) / (T3 - T2));
+        sel = { x: target.x, y: target.y, w: target.w * k, h: target.h * k };
+        render();
+        put(target.x + target.w * k, target.y + target.h * k);
+      } else {
+        sel = target;
+        parkGhost();
+        setMode(true); // blur appears, exactly like a real selection
+        introTimer = setTimeout(() => {
+          introRunning = false;
+          reselect();
+          hint.textContent = 'Your turn: drag to select an area';
+        }, 2600);
+        return;
+      }
+      introRaf = requestAnimationFrame(step);
+    })(t0);
+  }
+  // Touching the controls during the held result keeps the visitor's own state.
+  document.querySelector('.controls').addEventListener('pointerdown', () => { introDone = true; if (introRunning) { introRunning = false; clearTimeout(introTimer); } });
+
   setMode(false);
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((en) => en.isIntersecting)) { io.disconnect(); runIntro(); }
+    }, { threshold: 0.6 });
+    io.observe(stage);
+  }
 })();

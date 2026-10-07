@@ -93,7 +93,7 @@ h2 { font-size: clamp(28px, 4vw, 38px); line-height: 1.15; margin: 0 0 36px; let
 .features p { margin: 0; color: var(--muted); font-size: 15px; }
 .n { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; background: var(--red); font-weight: 700; font-size: 15px; }
 
-.uses { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px 32px; }
+.uses { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 32px; }
 .uses li { color: var(--muted); border-left: 3px solid var(--red); padding-left: 16px; }
 .uses b { display: block; color: var(--text); font-size: 18px; }
 
@@ -137,3 +137,12 @@ footer { border-top: 1px solid var(--line); display: flex; justify-content: spac
 
 .demo.selecting { cursor: crosshair; }
 .controls button:disabled, .controls input:disabled { opacity: .4; cursor: default; }
+/* Four use cases: one row on wide screens, a 2x2 grid on tablets, one column on phones (no orphan row). */
+@media (max-width: 980px) { .uses { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .uses { grid-template-columns: 1fr; } }
+
+/* Intro: a ghost cursor drags a box once, so the blur is seen before anyone touches the demo. */
+.ghost { position: absolute; left: 0; top: 0; width: 26px; height: 26px; margin: -13px 0 0 -13px; pointer-events: none; opacity: 0; transition: opacity .25s; z-index: 5; filter: drop-shadow(0 0 2px rgba(255,255,255,.95)); }
+.ghost::before, .ghost::after { content: ""; position: absolute; background: #1b2735; border-radius: 1px; }
+.ghost::before { left: 12px; top: 0; width: 2px; height: 26px; }
+.ghost::after { top: 12px; left: 0; height: 2px; width: 26px; }

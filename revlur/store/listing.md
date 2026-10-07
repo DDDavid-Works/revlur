@@ -59,7 +59,7 @@ Questions or ideas: dddavid.works@gmail.com
 - Screenshots (1280x800 or 640x400, up to 5). Suggested set:
   1. "Drag a box, blur the rest": a dashboard with a chart kept sharp.
   2. "Zoom in for the back row": the zoomed chart with the red pointer dot and the copy, save and close icons.
-  3. "Read one section at a time": an article with a paragraph clear and the toolbar showing Scroll on.
+  3. "Focus on what you're reading": an article with the part you chose clear and the toolbar showing Scroll on.
   4. "Hold the page still": a presentation-style slide or dashboard with Lock-on.
   5. "Nothing to set up": the toolbar close-up with the blur slider.
 - Small promo tile 440x280 (optional but recommended): icon, "Revlur", "Focus on what matters."
