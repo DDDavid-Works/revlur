@@ -46,7 +46,7 @@ h1 { font-size: clamp(40px, 7vw, 68px); line-height: 1.08; margin: 0 0 20px; let
 .demo-wrap { max-width: 920px; margin: 32px auto 0; padding: 0 20px; }
 .demo {
   position: relative; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; border: 1px solid var(--line);
-  box-shadow: 0 30px 80px rgba(0,0,0,.45); background: #f3f4f6; cursor: crosshair; touch-action: none; user-select: none;
+  box-shadow: 0 30px 80px rgba(0,0,0,.45); background: #f3f4f6; touch-action: none; user-select: none;
 }
 .page { position: absolute; inset: 0; color: #111827; display: flex; flex-direction: column; }
 .page-bar { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: #e5e7eb; font-size: 12px; }
@@ -134,3 +134,6 @@ footer { border-top: 1px solid var(--line); display: flex; justify-content: spac
 
 .brand .tag { color: var(--muted); font-weight: 500; font-size: 14px; padding-left: 12px; margin-left: 2px; border-left: 1px solid var(--line); }
 @media (max-width: 720px) { .brand .tag { display: none; } }
+
+.demo.selecting { cursor: crosshair; }
+.controls button:disabled, .controls input:disabled { opacity: .4; cursor: default; }

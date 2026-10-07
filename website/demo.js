@@ -1,4 +1,4 @@
-// Hero demo: a miniature of the extension. Drag to choose the clear area; the rest is blurred.
+// Hero demo: a miniature of the extension. The page starts clear; drag to select, and the blur appears on release.
 // Four blur rects around the hole, like the extension itself (backdrop-filter ignores cut-outs).
 (function () {
   const stage = document.getElementById('demo-stage');
@@ -9,6 +9,10 @@
   const out = document.getElementById('demo-out');
   let sel = null; // {x, y, w, h} as fractions of the stage
   let start = null;
+  let committed = false; // false = selecting (page clear, crosshair); true = selection made, rest blurred
+  const rbtn = document.getElementById('demo-reselect-btn');
+  const tools = [range, document.getElementById('demo-zoom-btn'), document.getElementById('demo-scroll-btn')];
+  const HINT = 'Drag to select an area';
   const scroller = stage.querySelector('.scroller');
   const sbtn = document.getElementById('demo-scroll-btn');
   let scrollOn = false; // Lock-on is the default: the page is held still until Scroll is pressed
@@ -39,7 +43,12 @@
     const s = sel || { x: 0, y: 0, w: 0, h: 0 };
     const x = s.x * W, y = s.y * H, w = s.w * W, h = s.h * H;
     [bt, bb, bl, br].forEach((el) => { el.style.backdropFilter = el.style.webkitBackdropFilter = filter; });
-    if (!sel) { place(bt, 0, 0, W, H); place(bb, 0, 0, 0, 0); place(bl, 0, 0, 0, 0); place(br, 0, 0, 0, 0); hole.style.display = 'none'; return; }
+    if (!sel || !committed) {
+      [bt, bb, bl, br].forEach((el) => place(el, 0, 0, 0, 0));
+      if (!sel) { hole.style.display = 'none'; return; }
+      Object.assign(hole.style, { display: 'block', left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px' });
+      return;
+    }
     place(bt, 0, 0, W, y);
     place(bb, 0, y + h, W, H - y - h);
     place(bl, 0, y, x, h);
@@ -52,15 +61,10 @@
     return { x: Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), y: Math.min(1, Math.max(0, (e.clientY - r.top) / r.height)) };
   };
 
-  // Default selection: the row of stat cards.
-  function defaultSel() {
-    const r = stage.getBoundingClientRect(), c = stage.querySelector('.cards').getBoundingClientRect();
-    const pad = 6;
-    return { x: (c.left - r.left - pad) / r.width, y: (c.top - r.top + scrollY - pad) / r.height, w: (c.width + pad * 2) / r.width, h: (c.height + pad * 2) / r.height };
-  }
-
   stage.addEventListener('pointerdown', (e) => {
+    if (committed) return; // after selecting, only Re-select starts a new box
     start = point(e);
+    sel = null;
     stage.setPointerCapture(e.pointerId);
     hint.classList.add('hide');
   });
@@ -71,9 +75,30 @@
     render();
   });
   const end = () => {
+    if (!start) return;
     start = null;
-    if (sel && (sel.w < 0.02 || sel.h < 0.02)) { sel = defaultSel(); render(); }
+    if (!sel || sel.w < 0.02 || sel.h < 0.02) { sel = null; hint.textContent = HINT; hint.classList.remove('hide'); render(); return; }
+    setMode(true);
   };
+
+  function setMode(isCommitted) {
+    committed = isCommitted;
+    stage.classList.toggle('selecting', !committed);
+    tools.forEach((el) => { el.disabled = !committed; });
+    rbtn.disabled = !committed;
+    render();
+  }
+  // Re-select (or Esc): back to a clear page with the crosshair, like the toolbar's Re-select.
+  function reselect() {
+    sel = null;
+    scrollOn = false;
+    sbtn.setAttribute('aria-pressed', 'false');
+    clearTimeout(hintTimer);
+    hint.textContent = HINT;
+    hint.classList.remove('hide');
+    setMode(false);
+  }
+  rbtn.addEventListener('click', reselect);
   stage.addEventListener('pointerup', end);
   stage.addEventListener('pointercancel', end);
   range.addEventListener('input', render);
@@ -126,8 +151,7 @@
     if (over) { dot.style.left = e.clientX - r.left + 'px'; dot.style.top = e.clientY - r.top + 'px'; }
   });
   zoom.addEventListener('pointerleave', () => { dot.style.display = 'none'; });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !zoom.hidden) closeZoom(); });
+  document.addEventListener('keydown', (e) => { if (e.key !== 'Escape') return; if (!zoom.hidden) closeZoom(); else if (committed) reselect(); });
 
-  sel = defaultSel();
-  render();
+  setMode(false);
 })();
