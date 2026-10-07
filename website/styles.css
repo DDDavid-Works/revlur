@@ -36,14 +36,15 @@ code, kbd { font: 0.9em ui-monospace, Consolas, monospace; background: var(--pan
 .btn-ghost:hover { border-color: var(--muted); filter: none; color: var(--text); }
 :focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
 
-.hero { text-align: center; padding: 88px 20px 40px; max-width: 800px; margin: 0 auto; }
+.hero { text-align: center; padding: 88px 20px 20px; max-width: 800px; margin: 0 auto; }
 .eyebrow { color: var(--red); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; font-size: 13px; margin: 0 0 16px; }
 h1 { font-size: clamp(40px, 7vw, 68px); line-height: 1.08; margin: 0 0 20px; letter-spacing: -.02em; }
 .accent { color: var(--red); }
-.lead { color: var(--muted); font-size: 19px; max-width: 580px; margin: 0 auto 32px; }
+.lead { color: var(--muted); font-size: 19px; max-width: 580px; margin: 0 auto 10px; text-wrap: balance; }
+.lead-sub { color: var(--muted); font-size: 15px; letter-spacing: .02em; opacity: .85; margin: 0 auto 32px; }
 .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
-.demo-wrap { max-width: 920px; margin: 32px auto 0; padding: 0 20px; }
+.demo-wrap { max-width: 920px; margin: 14px auto 0; padding: 0 20px; }
 .demo {
   position: relative; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; border: 1px solid var(--line);
   box-shadow: 0 30px 80px rgba(0,0,0,.45); background: #f3f4f6; touch-action: none; user-select: none;
