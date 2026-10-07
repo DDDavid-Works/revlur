@@ -40,7 +40,11 @@
     </g>
   </g>
   <!-- the clear window -->
-  <rect x="246" y="112" width="148" height="68" rx="6" fill="#ffffff" stroke="#e5565b" stroke-width="2"/>
+  <rect x="245" y="111" width="150" height="70" rx="3" fill="none" stroke="#000000" stroke-opacity="0.5" stroke-width="1"/>
+  <rect x="246" y="112" width="148" height="68" rx="2" fill="#ffffff" stroke="#ffffff" stroke-width="1.5"/>
+  <g fill="none" stroke="#e5565b" stroke-width="2">
+    <path d="M236.5 122.5V102.5H256.5"/><path d="M383.5 102.5H403.5V122.5"/><path d="M403.5 169.5V189.5H383.5"/><path d="M256.5 189.5H236.5V169.5"/>
+  </g>
   <text x="258" y="131" font-size="9" font-weight="500" font-family="Segoe UI, Arial, Helvetica, sans-serif" fill="#6b7280">Revenue</text>
   <text x="258" y="153" font-size="19" font-weight="700" font-family="Segoe UI, Arial, Helvetica, sans-serif" fill="#111827">$482k</text>
   <text x="258" y="168" font-size="9" font-weight="600" font-family="Segoe UI, Arial, Helvetica, sans-serif" fill="#16a34a">+12.4%</text>
