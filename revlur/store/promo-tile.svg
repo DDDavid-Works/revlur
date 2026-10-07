@@ -17,7 +17,7 @@
   </g>
 
   <!-- wordmark and tagline -->
-  <text x="30" y="148" font-size="38" font-weight="700" font-family="Segoe UI, Arial, Helvetica, sans-serif" fill="#f4f7fa">Revlur</text>
+  <text x="30" y="148" font-size="38" font-weight="700" font-family="Segoe UI, Arial, Helvetica, sans-serif" fill="#f4f7fa">Revlur<tspan fill="#e5565b">.</tspan></text>
   <text x="31" y="176" font-size="15" font-weight="500" font-family="Segoe UI, Arial, Helvetica, sans-serif" fill="#9fb1c4">Focus on what matters.</text>
   <text x="31" y="214" font-size="13" font-weight="600" font-family="Segoe UI, Arial, Helvetica, sans-serif" fill="#e5565b">Show one thing. Blur the rest.</text>
 

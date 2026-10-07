@@ -213,3 +213,4 @@ footer { border-top: 1px solid var(--line); display: flex; justify-content: spac
 .hh-e { right: var(--ve); top: calc(50% - var(--b) / 2); width: var(--t); height: var(--b); cursor: ew-resize; }
 .hh-w { left: var(--vw); top: calc(50% - var(--b) / 2); width: var(--t); height: var(--b); cursor: ew-resize; }
 .demo.selecting .hh { display: none; } /* handles appear once the area is chosen */
+.brand-dot { color: var(--red); } /* the icon's red dot, as a period after the name */
