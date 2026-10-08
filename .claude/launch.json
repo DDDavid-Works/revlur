@@ -4,14 +4,41 @@
     {
       "name": "website",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["--yes", "http-server", "website", "-p", "5173", "-c-1"],
+      "runtimeArgs": [
+        "--yes",
+        "http-server",
+        "website",
+        "-p",
+        "5173",
+        "-c-1"
+      ],
       "port": 5173
     },
     {
       "name": "website-waitlist",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["--yes", "http-server", "website-waitlist", "-p", "5175", "-c-1"],
+      "runtimeArgs": [
+        "--yes",
+        "http-server",
+        "website-waitlist",
+        "-p",
+        "5175",
+        "-c-1"
+      ],
       "port": 5175
+    },
+    {
+      "name": "store-scenes",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "--yes",
+        "http-server",
+        "revlur/store/scenes",
+        "-p",
+        "5180",
+        "-c-1"
+      ],
+      "port": 5180
     }
   ]
 }
