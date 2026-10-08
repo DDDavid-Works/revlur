@@ -62,7 +62,7 @@ Questions or ideas: dddavid.works@gmail.com
 | Category | Productivity |
 | Language | English |
 | Store icon (128x128) | taken from the zip (`src/icons/icon128.png`); upload that file if asked |
-| Screenshots (1 to 5) | your five 1280x800 files, in the order in `screenshots.md` |
+| Screenshots (1 to 5) | your five 1280x800 files from the `store-ready` folder (run `node revlur/store/prepare-screenshots.js <folder>` first; steps in `screenshots.md`) |
 | Small promo tile (440x280) | `revlur/store/promo-tile-440x280.png` |
 | Marquee promo tile, video | leave empty (optional) |
 | Homepage URL (if shown) | `https://revlur.app` |
