@@ -1,0 +1,13 @@
+{
+  "name": "revlur-promo",
+  "private": true,
+  "description": "Tooling that records the website demo as a GIF for promotion posts (not part of the extension).",
+  "scripts": {
+    "gif": "node make-gif.js"
+  },
+  "dependencies": {
+    "gifenc": "^1.0.3",
+    "pngjs": "^7.0.0",
+    "puppeteer-core": "^25.12.0"
+  }
+}
