@@ -5,15 +5,15 @@ Go through the dashboard tab by tab. Each field below has the exact value to pas
 Dashboard: https://chrome.google.com/webstore/devconsole
 
 ## Before you start
-- [ ] `revlur/dist/revlur-0.4.0.zip` exists on your computer (20.8 KB, 9 files). If you rebuild it, run `npm run package` in `revlur/`.
-- [ ] The version in the zip is 0.4.0. The store rejects an upload with the same or a lower number than a previous one, so bump it for any later upload.
+- [ ] `revlur/dist/revlur-0.4.1.zip` exists on your computer (20.8 KB, 9 files). If you rebuild it, run `npm run package` in `revlur/`.
+- [ ] The version in the zip is 0.4.1. The store rejects an upload with the same or a lower number than a previous one, so bump it for any later upload.
 - [ ] https://revlur.app/privacy.html opens (it does as of Oct 8).
 - [ ] Screenshots are ready (see `screenshots.md`). Not required to save a draft, but required to submit.
 - [ ] In the developer account settings, the contact email is set and verified. The store won't let you publish until it is.
 
 ## 1. Create the item and upload (Package tab)
-1. Click **Add new item** and upload `revlur-0.4.0.zip`.
-2. Let it finish reading the manifest. Expect: name **Revlur**, version **0.4.0**, and the summary line filled in from the manifest.
+1. Click **Add new item** and upload `revlur-0.4.1.zip`.
+2. Let it finish reading the manifest. Expect: name **Revlur**, version **0.4.1**, and the summary line filled in from the manifest.
 
 Expected permissions listed: `activeTab`, `scripting`, `storage`. No host permissions. If the dashboard shows anything else, stop and tell me.
 
@@ -69,7 +69,7 @@ Questions or ideas: dddavid.works@gmail.com
 | Support URL (if shown) | `https://revlur.app` (or leave empty and rely on the contact email) |
 | Mature content | No |
 
-Note: the **name** and the **summary** come from the manifest ("Revlur" and "Drag a box on any page and blur everything else. Zoom, present and read with focus. No accounts, no tracking."), so you can't type them here.
+Note: the **name** and the **summary** come from the manifest ("Revlur" and "Drag a box on any page and everything else gets blurred. Zoom, present and read with focus. No accounts, no tracking."), so you can't type them here.
 
 ## 3. Privacy tab
 
