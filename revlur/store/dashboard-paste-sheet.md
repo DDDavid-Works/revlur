@@ -118,7 +118,7 @@ Open any normal web page, click the Revlur icon in the toolbar (pin it from the 
 
 ## 6. Account settings
 - Contact email: set and verified (the listing shows `dddavid.works@gmail.com` in its text).
-- Trader status: **Trader** (decided Oct 8). The store will ask for trader contact details (expect a postal address, a phone number and an email) and may verify them; for users in the EU they are shown on the listing. Have those ready, and use details you are happy to make public. Check the dashboard's own wording for exactly what it asks and where it shows it.
+- Trader status: **Trader** (decided Oct 8). Per Google's Trader FAQ, a trader provides a legal name, an address and a phone number (SMS-verified), and a Google Payments profile is needed to complete verification. That information is **posted publicly at the bottom of the extension listing** (the phone number too); the FAQ does not say it is limited to EU users. Use an address you are comfortable making public. Status is self-declared and it is the developer's responsibility to be accurate; it can be switched later by restarting verification. Sources: developer.chrome.com/docs/webstore/program-policies/trader-verification-faq and .../trader-disclosure.
 
 ## 7. Submit
 - [ ] Every tab shows a green check or no red warnings.
