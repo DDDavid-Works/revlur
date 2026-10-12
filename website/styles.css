@@ -139,6 +139,39 @@ footer { border-top: 1px solid var(--line); display: flex; justify-content: spac
 
 .demo.selecting { cursor: crosshair; }
 .controls button:disabled, .controls input:disabled { opacity: .4; cursor: default; }
+
+/* Waitlist */
+.wl { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 520px; margin: 0 auto; }
+.wl input[type=email] { flex: 1 1 260px; min-width: 0; background: var(--panel-2); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; font: inherit; }
+.wl input[type=email]::placeholder { color: var(--muted); }
+.wl input[type=email]:focus-visible { border-color: var(--red); }
+.wl .btn { border: 0; cursor: pointer; font: inherit; font-weight: 600; }
+.wl .btn:disabled { opacity: .6; cursor: default; }
+.wl .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.wl-msg { flex-basis: 100%; margin: 4px 0 0; min-height: 1.5em; font-size: 14px; color: var(--muted); }
+.wl-msg.ok { color: #7fd6a4; }
+.wl-msg.err { color: #ff9a9d; }
+.cta-sub { margin: 26px 0 0; }
+.cta-sub a { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border-radius: 999px; font-size: 15px; font-weight: 600; color: var(--text); background: rgba(229,86,91,.12); border: 1px solid rgba(229,86,91,.55); transition: background .15s, border-color .15s; }
+.cta-sub a:hover { background: rgba(229,86,91,.24); border-color: var(--red); }
+.cta-arrow { display: inline-block; color: var(--red); animation: cta-bob 1.8s ease-in-out infinite; }
+@keyframes cta-bob { 50% { transform: translateY(3px); } }
+@media (prefers-reduced-motion: reduce) { .cta-arrow { animation: none; } }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Privacy policy page */
+.doc { max-width: 720px; margin: 0 auto; padding: 72px 20px 24px; }
+.doc h1 { font-size: clamp(32px, 5vw, 48px); margin-bottom: 8px; }
+.doc h2 { font-size: 22px; margin: 40px 0 12px; letter-spacing: 0; }
+.doc p, .doc li { color: var(--muted); font-size: 16px; }
+.doc strong { color: var(--text); }
+.doc ul { padding-left: 20px; display: grid; gap: 10px; }
+.doc a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+.doc a:hover { color: var(--red); }
+.doc .updated { font-size: 14px; margin: 0 0 28px; }
+.doc .lead-doc { color: var(--text); font-size: 19px; }
+footer a { text-decoration: underline; text-underline-offset: 3px; }
+footer a:hover { color: var(--text); }
 /* Four use cases: one row on wide screens, a 2x2 grid on tablets, one column on phones (no orphan row). */
 @media (max-width: 980px) { .uses { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .uses { grid-template-columns: 1fr; } }
