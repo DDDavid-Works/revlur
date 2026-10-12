@@ -13,7 +13,7 @@ Dashboard: https://chrome.google.com/webstore/devconsole
 
 ## 1. Create the item and upload (Package tab)
 1. Click **Add new item** and upload `revlur-0.4.1.zip`.
-2. Let it finish reading the manifest. Expect: name **Revlur**, version **0.4.1**, and the summary line filled in from the manifest.
+2. Let it finish reading the manifest. Expect: name **Revlur: Focus on What Matters, Blur Everything Else**, version **0.4.1**, and the summary line filled in from the manifest.
 
 Expected permissions listed: `activeTab`, `scripting`, `storage`. No host permissions. If the dashboard shows anything else, stop and tell me.
 
@@ -69,7 +69,7 @@ Questions or ideas: dddavid.works@gmail.com
 | Support URL (if shown) | `https://revlur.app` (or leave empty and rely on the contact email) |
 | Mature content | No |
 
-Note: the **name** and the **summary** come from the manifest ("Revlur" and "Drag a box on any page and everything else gets blurred. Zoom, present and read with focus. No accounts, no tracking."), so you can't type them here.
+Note: the **name** and the **summary** come from the manifest ("Revlur: Focus on What Matters, Blur Everything Else" and "Drag a box on any page and everything else gets blurred. Zoom, present and read with focus. No accounts, no tracking."), so you can't type them here.
 
 ## 3. Privacy tab
 

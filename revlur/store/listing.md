@@ -6,9 +6,9 @@ Placeholders in [square brackets] need your input.
 ## Store listing tab
 
 **Name** (max 75)
-Revlur
+Revlur: Focus on What Matters, Blur Everything Else
 
-The store shows the manifest's name, so this is set in revlur/manifest.json (decision: keep it as just "Revlur"). The tagline "Focus on what matters" appears on the website and in the store graphics, and the summary below carries the pitch.
+The store shows the manifest's name, so this is set in revlur/manifest.json (decision Oct 12: name plus the website tagline, 51 characters). The toolbar tooltip stays "Revlur".
 
 **Summary** (max 132)
 Drag a box on any page and everything else gets blurred. Zoom, present and read with focus. No accounts, no tracking.
