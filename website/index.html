@@ -3,10 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Revlur – Focus on what matters</title>
+<title>Revlur – Blur everything except what you select, for Chrome</title>
 <meta name="description" content="Revlur: Focus on what matters. A Chrome extension that blurs everything outside the area you select. Zoom in, lock on, present with focus.">
+<link rel="canonical" href="https://revlur.app/">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Revlur">
+<meta property="og:title" content="Revlur: Show one thing. Blur the rest.">
+<meta property="og:description" content="Revlur: Focus on what matters. A Chrome extension that blurs everything outside the area you select. Zoom in, lock on, present with focus.">
+<meta property="og:url" content="https://revlur.app/">
+<meta property="og:image" content="https://revlur.app/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Revlur blurring a dashboard except for the selected row of cards">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Revlur","url":"https://revlur.app/"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Revlur","description":"A Chrome extension that blurs everything outside the area you select. Zoom in, lock on, present with focus.","applicationCategory":"BrowserApplication","applicationSubCategory":"Chrome extension","operatingSystem":"Chrome","url":"https://revlur.app/","downloadUrl":"https://chromewebstore.google.com/detail/revlur/oclgenhjbbilkndhgnfbgcdlkkgcmjbm","installUrl":"https://chromewebstore.google.com/detail/revlur/oclgenhjbbilkndhgnfbgcdlkkgcmjbm","image":"https://revlur.app/assets/og-image.png","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="styles.css?v=20261012b">
+<link rel="stylesheet" href="styles.css?v=20261107b">
 </head>
 <body>
 
@@ -16,6 +30,7 @@
     <a href="#features">Features</a>
     <a href="#use">Use cases</a>
     <a href="#privacy">Privacy</a>
+    <a href="blog/">Blog</a>
     <a class="btn btn-small" href="https://chromewebstore.google.com/detail/revlur/oclgenhjbbilkndhgnfbgcdlkkgcmjbm">Add to Chrome</a>
   </nav>
 </header>
@@ -23,7 +38,7 @@
 <main id="top">
   <section class="hero">
     <p class="eyebrow">Chrome extension</p>
-    <h1>Show one thing.<br><span class="accent">Blur the rest.</span></h1>
+    <h1>Show one thing. <br><span class="accent">Blur the rest.</span></h1>
     <p class="lead">Click the icon, drag a box around the part you want. Everything else gets blurred.</p>
     <p class="lead-sub">No popups. No accounts. No setup.</p>
     <div class="cta">
@@ -44,7 +59,7 @@
         <div class="page-body"><div class="scroller">
           <aside><span class="w"></span><span class="w"></span><span class="w"></span><span class="w"></span><span class="w"></span></aside>
           <div class="grid">
-            <h3>Quarterly overview</h3>
+            <div class="grid-title">Quarterly overview</div>
             <div class="cards">
               <div class="card"><small>Revenue</small><strong>$482k</strong><em class="up">+12.4%</em></div>
               <div class="card"><small>Active users</small><strong>31,208</strong><em class="up">+3.1%</em></div>
@@ -66,7 +81,7 @@
           <aside class="wk-nav"><span class="wk-logo">Wiki</span><span class="w"></span><span class="w"></span><span class="w"></span><span class="w"></span><span class="w"></span><span class="w"></span></aside>
           <div class="art">
             <div class="wk-tabs"><b>Article</b><span>Talk</span><span class="wk-sp"></span><span>Read</span><span>Edit</span></div>
-            <h3 class="wk-title">Aurora</h3>
+            <div class="wk-title">Aurora</div>
             <p class="art-lead"><b>An aurora</b> is a natural light display in the night sky, seen mostly near the Arctic and Antarctic. It appears as shifting ribbons, curtains and arcs of <a>green</a>, <a>red</a> and violet light.</p>
             <aside class="infobox">
               <div class="ib-title">Aurora</div>
@@ -74,13 +89,13 @@
               <dl><dt>Also called</dt><dd>Northern and southern lights</dd><dt>Altitude</dt><dd>80 to 300 km</dd><dt>Colours</dt><dd>Green, red, violet</dd><dt>Best season</dt><dd>September to March</dd></dl>
             </aside>
             <p>Auroras are most common in a ring around each magnetic pole. During strong solar activity they can be seen much farther from the poles, sometimes at mid latitudes.</p>
-            <h4>Causes</h4>
+            <div class="art-h">Causes</div>
             <p>Auroras occur when charged particles from the Sun, carried by the <a>solar wind</a>, are steered by Earth's magnetic field toward the poles. There they collide with oxygen and nitrogen high in the atmosphere, and the excited atoms release the energy as light.</p>
-            <h4>Colours</h4>
+            <div class="art-h">Colours</div>
             <p>Green, the most common colour, comes from oxygen about 100 km up. Red appears higher, above 200 km. Nitrogen adds blue and purple fringes along the lower edge of the display.</p>
-            <h4>Observing</h4>
+            <div class="art-h">Observing</div>
             <p>The best views come on clear, dark nights, far from city lights. Activity follows the 11-year <a>solar cycle</a> and peaks near solar maximum, with the strongest displays often around the March and September equinoxes.</p>
-            <h4>In culture</h4>
+            <div class="art-h">In culture</div>
             <p>Auroras feature in the folklore of many northern peoples, who described them as spirits, torches or messengers. Today they draw travellers to places such as Iceland, northern Norway and Alaska.</p>
           </div>
         </div></div>
@@ -142,7 +157,7 @@
 <footer>
   <span>&copy; 2026 Revlur</span>
   <span>Short for &ldquo;reverse blur&rdquo;.</span>
-  <a href="privacy.html">Privacy policy</a>
+  <span><a href="blog/">Blog</a> · <a href="privacy.html">Privacy policy</a></span>
 </footer>
 
 <script src="demo.js?v=20261012b"></script>

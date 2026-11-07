@@ -61,7 +61,7 @@ h1 { font-size: clamp(40px, 7vw, 68px); line-height: 1.08; margin: 0 0 20px; let
 .page aside { width: 14%; background: #fff; border-right: 1px solid #e5e7eb; padding: 16px 12px; display: flex; flex-direction: column; gap: 12px; }
 .page aside .w { height: 10px; border-radius: 5px; background: #d1d5db; }
 .grid { flex: 1; padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-.grid h3 { margin: 0; font-size: clamp(13px, 2vw, 18px); }
+.grid-title { margin: 0; font-weight: 700; font-size: clamp(13px, 2vw, 18px); }
 .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .card { background: #fff; border-radius: 10px; padding: 10px 14px; box-shadow: 0 1px 3px rgba(0,0,0,.08); display: flex; flex-direction: column; line-height: 1.3; }
 .card small { color: #6b7280; font-size: clamp(9px, 1.4vw, 12px); }
@@ -219,7 +219,7 @@ footer a:hover { color: var(--text); }
 .wk-tabs span { padding-bottom: 6px; }
 .wk-sp { flex: 1; }
 .wk-title { margin: 6px 0 8px; font: 400 clamp(20px, 3.4vw, 30px)/1.2 Georgia, "Times New Roman", serif; border-bottom: 1px solid #d5dbe3; padding-bottom: 4px; }
-.art h4 { margin: 14px 0 4px; font: 400 clamp(15px, 2.2vw, 20px)/1.25 Georgia, "Times New Roman", serif; border-bottom: 1px solid #e3e7ec; padding-bottom: 2px; }
+.art-h { margin: 14px 0 4px; font: 400 clamp(15px, 2.2vw, 20px)/1.25 Georgia, "Times New Roman", serif; border-bottom: 1px solid #e3e7ec; padding-bottom: 2px; }
 .art p { margin: 0 0 8px; }
 .art a { color: #3b6db0; }
 .infobox { float: right; width: 34%; margin: 2px 0 10px 14px; border: 1px solid #c7d0db; background: #f6f7f9; padding: 6px; font-size: .92em; line-height: 1.4; }
@@ -247,3 +247,16 @@ footer a:hover { color: var(--text); }
 .hh-w { left: var(--vw); top: calc(50% - var(--b) / 2); width: var(--t); height: var(--b); cursor: ew-resize; }
 .demo.selecting .hh { display: none; } /* handles appear once the area is chosen */
 .brand-dot { color: var(--red); } /* the icon's red dot, as a period after the name */
+
+/* Blog */
+.doc .posts { list-style: none; padding: 0; margin: 32px 0 0; display: grid; gap: 16px; }
+.posts li { background: var(--panel-2); border: 1px solid var(--line); border-radius: 14px; transition: border-color .15s; }
+.posts li:hover { border-color: var(--muted); }
+.posts a { display: block; padding: 22px 24px; text-decoration: none; }
+.posts time { display: block; color: var(--muted); font-size: 13px; margin-bottom: 6px; }
+.posts h2 { margin: 0 0 6px; font-size: 20px; color: var(--text); }
+.posts p { margin: 0; font-size: 15px; }
+.doc .back { display: inline-block; margin-top: 40px; font-size: 15px; }
+.nav nav a[aria-current='page'] { color: var(--text); }
+.doc a.btn { color: #fff; text-decoration: none; }
+.doc a.btn:hover { color: #fff; }
