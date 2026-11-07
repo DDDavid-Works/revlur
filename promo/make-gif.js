@@ -21,7 +21,7 @@ const frames = []; // { rgba, w, h, delay }
   await page.setViewport({ width: 1000, height: 900, deviceScaleFactor: 1 });
   await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]); // no auto intro, instant zoom
   await page.goto(PAGE, { waitUntil: 'load' });
-  await page.addStyleTag({ content: 'html{scroll-behavior:auto!important}' });
+  await page.addStyleTag({ content: 'html{scroll-behavior:auto!important} .demo-card{border:0!important;border-radius:0!important}' });
   await page.evaluate(() => document.querySelector('.demo-card').scrollIntoView({ block: 'center' }));
 
   // A fake cursor (screenshots don't include the real one): arrow normally, crosshair while selecting.
@@ -112,16 +112,72 @@ const frames = []; // { rgba, w, h, delay }
   for (let i = 0; i < 8; i++) { await page.mouse.wheel({ deltaY: 22 }); await grab(FRAME_MS); }
   await hold(1400);
 
+  // ---- Browser window frame: rendered once as an image, every captured frame is pasted into it.
+  const BORDER = 1;
+  const icon = fs.readFileSync(path.resolve(__dirname, '../website/assets/icon.svg'), 'utf8');
+  const iconUri = 'data:image/svg+xml;base64,' + Buffer.from(icon).toString('base64');
+  const fw = frames[0].w + BORDER * 2;
+  const chromePage = await browser.newPage();
+  await chromePage.setViewport({ width: fw, height: 200, deviceScaleFactor: 1 });
+  await chromePage.setContent(`<style>
+    *{box-sizing:border-box;margin:0}
+    body{width:${fw}px;font:12px/1 "Segoe UI",system-ui,sans-serif;color:#1f1f1f;background:#dee1e6;overflow:hidden}
+    .title{height:38px;display:flex;align-items:flex-end;padding-left:8px;position:relative}
+    .tab{width:230px;height:30px;background:#ffffff;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:8px;padding:0 10px;font-size:12px}
+    .tab img{width:16px;height:16px}.tab span{flex:1;white-space:nowrap;overflow:hidden}.tab b{font-weight:400;color:#5f6368;font-size:14px}
+    .plus{width:28px;height:28px;color:#5f6368;font-size:18px;display:flex;align-items:center;justify-content:center;margin-left:4px;margin-bottom:2px}
+    .ctl{position:absolute;right:0;top:0;height:32px;display:flex}
+    .ctl i{width:46px;height:32px;display:flex;align-items:center;justify-content:center}
+    .ctl svg{stroke:#1f1f1f;fill:none;stroke-width:1}
+    .bar{height:40px;background:#ffffff;display:flex;align-items:center;gap:6px;padding:0 10px}
+    .nav{width:28px;text-align:center;font-size:16px;color:#5f6368}
+    .omni{flex:1;height:30px;border-radius:15px;background:#eff1f4;display:flex;align-items:center;gap:8px;padding:0 14px;font-size:13px}
+    .omni u{text-decoration:none;color:#5f6368}
+    .ext{display:flex;align-items:center;gap:10px;padding-left:6px}.ext img{width:20px;height:20px}
+    .dots{color:#5f6368;font-size:16px;width:20px;text-align:center}
+  </style>
+  <div class="title">
+    <div class="tab"><img src="${iconUri}"><span>Revlur – Focus on what matters</span><b>&times;</b></div><div class="plus">+</div>
+    <div class="ctl">
+      <i><svg width="10" height="10"><path d="M0 5.5h10"/></svg></i>
+      <i><svg width="10" height="10"><rect x=".5" y=".5" width="9" height="9"/></svg></i>
+      <i><svg width="10" height="10"><path d="M0 0l10 10M10 0L0 10"/></svg></i>
+    </div>
+  </div>
+  <div class="bar">
+    <span class="nav">&larr;</span><span class="nav" style="opacity:.4">&rarr;</span><span class="nav">&#8635;</span>
+    <div class="omni"><u>&#128274;&#xFE0E;</u><span>revlur.app</span></div>
+    <div class="ext"><img src="${iconUri}"><span class="dots">&#8942;</span></div>
+  </div>`);
+  const top = await chromePage.evaluate(() => document.querySelector('.bar').getBoundingClientRect().bottom);
+  await chromePage.setViewport({ width: fw, height: Math.ceil(top), deviceScaleFactor: 1 });
+  const headPng = PNG.sync.read(await chromePage.screenshot({ type: 'png', clip: { x: 0, y: 0, width: fw, height: Math.ceil(top) } }));
+  const FH = Math.ceil(top) + frames[0].h + BORDER;
+  const BORDER_RGB = [0x9a, 0xa0, 0xa6];
+  // Pastes a card frame under the header, with a 1px window outline around everything.
+  const compose = (f) => {
+    const out = Buffer.alloc(fw * FH * 4);
+    headPng.data.copy(out, 0, 0, fw * headPng.height * 4);
+    for (let y = 0; y < f.h; y++) {
+      const src = y * f.w * 4, dst = ((headPng.height + y) * fw + BORDER) * 4;
+      Buffer.from(f.rgba.buffer, f.rgba.byteOffset + src, f.w * 4).copy(out, dst);
+    }
+    const px = (x, y) => { const i = (y * fw + x) * 4; out[i] = BORDER_RGB[0]; out[i + 1] = BORDER_RGB[1]; out[i + 2] = BORDER_RGB[2]; out[i + 3] = 255; };
+    for (let x = 0; x < fw; x++) { px(x, 0); px(x, FH - 1); }
+    for (let y = 0; y < FH; y++) { px(0, y); px(fw - 1, y); }
+    return out;
+  };
+
   await browser.close();
 
-  if (process.env.DUMP) { fs.mkdirSync(process.env.DUMP, { recursive: true }); frames.forEach((f, i) => { if (i % 8 === 0 || f.delay > 300) { const p = new PNG({ width: f.w, height: f.h }); Buffer.from(f.rgba).copy(p.data); fs.writeFileSync(path.join(process.env.DUMP, String(i).padStart(3, "0") + "_" + f.delay + ".png"), PNG.sync.write(p)); } }); }
+  if (process.env.DUMP) { fs.mkdirSync(process.env.DUMP, { recursive: true }); frames.forEach((f, i) => { if (i % 8 === 0 || f.delay > 300) { const p = new PNG({ width: fw, height: FH }); compose(f).copy(p.data); fs.writeFileSync(path.join(process.env.DUMP, String(i).padStart(3, "0") + "_" + f.delay + ".png"), PNG.sync.write(p)); } }); }
 
   // ---- Encode: one global palette from sampled frames (small file, no flicker between frames).
-  const { w, h } = frames[0];
-  const sample = Buffer.concat(frames.filter((_, i) => i % 6 === 0).map((f) => Buffer.from(f.rgba)));
+  const w = fw, h = FH;
+  const sample = Buffer.concat(frames.filter((_, i) => i % 6 === 0).map((f) => compose(f)));
   const palette = quantize(sample, 256, { format: 'rgb565' });
   const gif = GIFEncoder();
-  frames.forEach((f, i) => gif.writeFrame(applyPalette(f.rgba, palette, 'rgb565'), w, h, { palette: i === 0 ? palette : undefined, delay: f.delay, repeat: 0 }));
+  frames.forEach((f, i) => gif.writeFrame(applyPalette(compose(f), palette, 'rgb565'), w, h, { palette: i === 0 ? palette : undefined, delay: f.delay, repeat: 0 }));
   gif.finish();
   fs.writeFileSync(OUT, Buffer.from(gif.bytes()));
   const total = frames.reduce((s, f) => s + f.delay, 0);
