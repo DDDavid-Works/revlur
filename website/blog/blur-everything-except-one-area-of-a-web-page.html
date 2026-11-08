@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to blur everything except one part of a web page – Revlur</title>
+<meta name="description" content="Blur the rest of a web page and keep one area sharp: for presenting, teaching, screenshots or reading. Options with and without an extension.">
+<link rel="canonical" href="https://revlur.app/blog/blur-everything-except-one-area-of-a-web-page.html">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Revlur">
+<meta property="og:title" content="How to blur everything except one part of a web page">
+<meta property="og:description" content="Blur the rest of a web page and keep one area sharp: for presenting, teaching, screenshots or reading. Options with and without an extension.">
+<meta property="og:url" content="https://revlur.app/blog/blur-everything-except-one-area-of-a-web-page.html">
+<meta property="og:image" content="https://revlur.app/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Revlur blurring a dashboard except for the selected row of cards">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="article:published_time" content="2026-11-08">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to blur everything except one part of a web page","description":"Blur the rest of a web page and keep one area sharp: for presenting, teaching, screenshots or reading. Options with and without an extension.","datePublished":"2026-11-08","dateModified":"2026-11-08","image":"https://revlur.app/assets/og-image.png","author":{"@type":"Person","name":"David"},"publisher":{"@type":"Organization","name":"Revlur","url":"https://revlur.app/"},"mainEntityOfPage":"https://revlur.app/blog/blur-everything-except-one-area-of-a-web-page.html"}</script>
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../styles.css?v=20261107b">
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="../index.html"><img src="../assets/icon.svg" alt="" width="28" height="28"><span>Revlur<span class="brand-dot" aria-hidden="true">.</span></span><span class="tag">Focus on what matters</span></a>
+  <nav>
+    <a href="../index.html#features">Features</a>
+    <a href="index.html" aria-current="page">Blog</a>
+    <a class="btn btn-small" href="https://chromewebstore.google.com/detail/revlur/oclgenhjbbilkndhgnfbgcdlkkgcmjbm">Add to Chrome</a>
+  </nav>
+</header>
+
+<main>
+  <article class="doc">
+    <p class="eyebrow">Blog</p>
+    <h1>How to blur everything except one part of a web page</h1>
+    <p class="updated"><time datetime="2026-11-08">November 8, 2026</time> · David</p>
+    <p class="lead-doc">Sometimes you want people to see one part of a page and nothing else. Hiding the rest completely loses context; blurring it keeps the shape of the page while taking the detail away.</p>
+
+    <h2>When this is useful</h2>
+    <ul>
+      <li><strong>Presenting:</strong> keep a meeting on one chart instead of the whole dashboard.</li>
+      <li><strong>Teaching:</strong> walk students through a page one section at a time.</li>
+      <li><strong>Screen sharing:</strong> keep side content, like other people's names or numbers, out of focus.</li>
+      <li><strong>Reading:</strong> keep only the paragraph you're on sharp. See <a href="read-long-articles-without-distraction-chrome.html">reading long articles without distractions</a>.</li>
+    </ul>
+
+    <h2>Without installing anything: developer tools</h2>
+    <p>If you're comfortable with Chrome's developer tools, you can add a CSS blur to the elements you want hidden. Right-click an element, choose <strong>Inspect</strong>, and add <code>filter: blur(8px)</code> to its styles. Repeat for each part of the page you want blurred.</p>
+    <p>It works, but it's slow: pages are built from many nested elements, so blurring &ldquo;everything except this box&rdquo; usually means blurring a dozen elements one by one. The changes vanish when you reload, and it's not something you'd do live in front of an audience.</p>
+
+    <h2>For a still image: blur in a screenshot editor</h2>
+    <p>If you only need a picture, take a screenshot and use the blur or pixelate tool in an image editor to blur everything except your area. That's fine for documentation, but it isn't live: you can't scroll, click or change the selection without starting over.</p>
+
+    <h2>Live, on any page: Revlur</h2>
+    <p>Revlur is a free Chrome extension built for exactly this. It works on the live page, in a few seconds:</p>
+    <ol>
+      <li>Click the Revlur icon in the toolbar. (Pin it from the puzzle-piece menu so it's always visible, or set a keyboard shortcut at <code>chrome://extensions/shortcuts</code>.)</li>
+      <li>Drag a box around the part you want to keep. Everything else gets blurred.</li>
+      <li>Adjust the blur from 0 to 20 pixels with the slider. Revlur remembers your setting.</li>
+      <li>Drag the red corner brackets or edges to fine-tune the area, or press <strong>Re-select</strong> to pick a new one.</li>
+      <li>Press <kbd>Esc</kbd> when you're done. The page is left exactly as it was.</li>
+    </ol>
+    <p>Revlur never changes the page itself; it only draws on top of it. It has no account, sends nothing anywhere, and only runs on the page you click it on.</p>
+
+    <h2>Good to know</h2>
+    <p>Chrome doesn't let extensions run on its own pages (like <code>chrome://</code> settings), the Chrome Web Store or its built-in PDF viewer, so Revlur won't start there. It follows the main page scroll; panels that scroll on their own inside a page aren't tracked.</p>
+
+    <h2>Try Revlur</h2>
+    <p>Revlur is free, needs no account and collects nothing. <a href="../index.html#demo">Try the demo</a> on the home page, or add it to Chrome.</p>
+    <p><a class="btn" href="https://chromewebstore.google.com/detail/revlur/oclgenhjbbilkndhgnfbgcdlkkgcmjbm">Add to Chrome</a></p>
+
+    <a class="back" href="index.html">&larr; All posts</a>
+  </article>
+</main>
+
+<footer>
+  <span>&copy; 2026 Revlur</span>
+  <span><a href="../index.html">Home</a></span>
+  <a href="../privacy.html">Privacy policy</a>
+</footer>
+
+</body>
+</html>

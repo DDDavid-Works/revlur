@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://revlur.app/</loc><lastmod>2026-11-07</lastmod></url>
-  <url><loc>https://revlur.app/blog/</loc><lastmod>2026-11-07</lastmod></url>
+  <url><loc>https://revlur.app/blog/</loc><lastmod>2026-11-08</lastmod></url>
   <url><loc>https://revlur.app/blog/introducing-revlur.html</loc><lastmod>2026-11-07</lastmod></url>
+  <url><loc>https://revlur.app/blog/highlight-part-of-screen-when-screen-sharing.html</loc><lastmod>2026-11-08</lastmod></url>
+  <url><loc>https://revlur.app/blog/blur-everything-except-one-area-of-a-web-page.html</loc><lastmod>2026-11-08</lastmod></url>
+  <url><loc>https://revlur.app/blog/present-a-dashboard-in-a-meeting.html</loc><lastmod>2026-11-08</lastmod></url>
+  <url><loc>https://revlur.app/blog/read-long-articles-without-distraction-chrome.html</loc><lastmod>2026-11-08</lastmod></url>
   <url><loc>https://revlur.app/privacy.html</loc><lastmod>2026-10-12</lastmod></url>
 </urlset>
