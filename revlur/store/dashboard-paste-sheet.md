@@ -15,7 +15,7 @@ Dashboard: https://chrome.google.com/webstore/devconsole
 1. Click **Add new item** and upload `revlur-0.4.1.zip`.
 2. Let it finish reading the manifest. Expect: name **Revlur: Focus on What Matters, Blur Everything Else**, version **0.4.1**, and the summary line filled in from the manifest.
 
-Expected permissions listed: `activeTab`, `scripting`, `storage`. No host permissions. If the dashboard shows anything else, stop and tell me.
+Expected permissions listed: `activeTab`, `contextMenus`, `scripting`, `storage`. No host permissions. If the dashboard shows anything else, stop and tell me.
 
 ## 2. Store listing tab
 
@@ -86,6 +86,11 @@ Used so that when the user clicks the Revlur icon or its keyboard shortcut, the 
 **scripting justification**
 ```
 Used to place Revlur's overlay (the blur, the selection outline and the small toolbar) onto the page the user activated it on. The code that is injected ships inside the extension; nothing is downloaded.
+```
+
+**contextMenus justification**
+```
+Adds two items to the menu shown when the user right-clicks the Revlur toolbar icon: "Rate Revlur" (opens the Chrome Web Store reviews page) and "Send feedback" (opens revlur.app/feedback.html). Nothing is added to page or selection menus, and no data is read or sent.
 ```
 
 **storage justification**

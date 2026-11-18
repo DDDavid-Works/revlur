@@ -19,6 +19,11 @@ async function flagUnavailable(tabId) {
 // Zoom needs a pixel snapshot of the visible tab; only the service worker can take one.
 // Allowed by the activeTab grant from the icon click or shortcut.
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (msg?.type === 'revlur:rate' || msg?.type === 'revlur:feedback') {
+    const url = msg.type === 'revlur:rate' ? REVIEWS_URL : FEEDBACK_URL;
+    chrome.tabs.create({ url, index: sender.tab ? sender.tab.index + 1 : undefined });
+    return;
+  }
   if (msg?.type !== 'revlur:capture' || sender.tab?.windowId == null) return;
   chrome.tabs
     .captureVisibleTab(sender.tab.windowId, { format: 'png' })
@@ -43,4 +48,22 @@ chrome.action.onClicked.addListener(async (tab) => {
     // Restricted pages (chrome://, Web Store, PDF viewer, ...): fail quietly.
     flagUnavailable(tab.id);
   }
+});
+
+// Feedback without in-page UI: right-click the toolbar icon for "Rate" and
+// "Send feedback"; uninstalling opens a short feedback page on the website.
+const REVIEWS_URL = 'https://chromewebstore.google.com/detail/revlur/oclgenhjbbilkndhgnfbgcdlkkgcmjbm/reviews';
+const FEEDBACK_URL = 'https://revlur.app/feedback.html';
+
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.contextMenus.removeAll(() => {
+    chrome.contextMenus.create({ id: 'revlur:rate', title: '★ Rate Revlur', contexts: ['action'] });
+    chrome.contextMenus.create({ id: 'revlur:feedback', title: 'Send feedback', contexts: ['action'] });
+  });
+  chrome.runtime.setUninstallURL(`${FEEDBACK_URL}?uninstalled`);
+});
+
+chrome.contextMenus.onClicked.addListener(({ menuItemId }) => {
+  if (menuItemId === 'revlur:rate') chrome.tabs.create({ url: REVIEWS_URL });
+  else if (menuItemId === 'revlur:feedback') chrome.tabs.create({ url: FEEDBACK_URL });
 });

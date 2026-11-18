@@ -37,6 +37,8 @@
   let scrollAllowed = false; // Lock-on is the default: the page is held still until the user allows scrolling
   let scrollHold = null; // page position held while locked: {x, y}
   let lastNudge = 0; // when we last told the user that scrolling is locked
+  let feedbackBtn = null; // toolbar toggle for the feedback bar
+  let feedbackBar = null; // second bar under the toolbar: Send feedback, Rate Revlur (hidden by default)
 
   try {
     chrome.storage.local.get('blur', ({ blur }) => {
@@ -314,6 +316,7 @@
     check: ['M5 12l5 5L20 7'],
     alert: ['M12 7v6', 'M12 17h.01'],
     close: ['M6 6l12 12', 'M18 6L6 18'],
+    feedback: ['M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-8l-4 3v-3H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z'],
   };
 
   function setIcon(btn, name) {
@@ -589,6 +592,21 @@
     }
   }
 
+  function toggleFeedbackBar() {
+    feedbackBar.hidden = !feedbackBar.hidden;
+    feedbackBtn.setAttribute('aria-expanded', String(!feedbackBar.hidden));
+    positionToolbar(); // the toolbar block changed height
+  }
+
+  // Opening a tab is done by the service worker (content scripts can't call chrome.tabs).
+  function openFromExtension(type) {
+    try {
+      chrome.runtime.sendMessage({ type });
+    } catch {
+      // extension context gone (e.g. reloaded): nothing to open
+    }
+  }
+
   function button(className, label, title) {
     const b = document.createElement('button');
     b.type = 'button';
@@ -598,7 +616,11 @@
     return b;
   }
 
+  // The toolbar block: the main toolbar pill, with the feedback bar under it when opened.
+  // Placement and dragging move the whole block.
   function buildToolbar() {
+    const dock = document.createElement('div');
+    dock.className = 'rl-dock';
     const bar = document.createElement('div');
     bar.className = 'rl-toolbar';
     bar.setAttribute('role', 'toolbar');
@@ -634,6 +656,9 @@
     scrollBtn.addEventListener('click', toggleScroll);
     updateScrollButton();
     const reselect = button('rl-btn', 'Re-select', 'Select a different area');
+    feedbackBtn = iconButton('rl-btn rl-icon-btn', 'feedback', 'Feedback and reviews');
+    feedbackBtn.setAttribute('aria-expanded', 'false');
+    feedbackBtn.addEventListener('click', toggleFeedbackBar);
     const close = button('rl-btn rl-close', '×', 'Exit Revlur (Esc)');
     close.setAttribute('aria-label', 'Exit Revlur');
 
@@ -645,11 +670,24 @@
 
     // Keep toolbar interaction from reaching the page underneath.
     for (const type of ['pointerdown', 'mousedown', 'mouseup', 'click', 'dblclick', 'contextmenu']) {
-      bar.addEventListener(type, (e) => e.stopPropagation());
+      dock.addEventListener(type, (e) => e.stopPropagation());
     }
 
-    bar.append(brand, label, zoom, scrollBtn, reselect, close);
-    return bar;
+    bar.append(brand, label, zoom, scrollBtn, reselect, feedbackBtn, close);
+
+    feedbackBar = document.createElement('div');
+    feedbackBar.className = 'rl-toolbar rl-feedback-bar';
+    feedbackBar.setAttribute('role', 'toolbar');
+    feedbackBar.setAttribute('aria-label', 'Revlur feedback');
+    feedbackBar.hidden = true;
+    const send = button('rl-btn', 'Send feedback', 'Tell us what to fix (opens revlur.app)');
+    send.addEventListener('click', () => openFromExtension('revlur:feedback'));
+    const rate = button('rl-btn rl-rate', '★ Rate Revlur', 'Leave a review on the Chrome Web Store');
+    rate.addEventListener('click', () => openFromExtension('revlur:rate'));
+    feedbackBar.append(send, rate);
+
+    dock.append(bar, feedbackBar);
+    return dock;
   }
 
   function activate(css) {
@@ -715,7 +753,7 @@
     window.removeEventListener('keydown', onKeyDown, true);
     window.removeEventListener('resize', onResize);
     host?.remove();
-    host = shadow = frameEl = scrollBtn = zoomEl = capture = blurLayer = panels = selectionEl = handlesEl = hint = toolbar = blurSlider = blurValue = null;
+    host = shadow = frameEl = scrollBtn = feedbackBtn = feedbackBar = zoomEl = capture = blurLayer = panels = selectionEl = handlesEl = hint = toolbar = blurSlider = blurValue = null;
     anchor = selection = null;
   }
 

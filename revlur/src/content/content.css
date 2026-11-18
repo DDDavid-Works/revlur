@@ -76,11 +76,19 @@
   pointer-events: none;
 }
 
-.rl-toolbar {
+/* The toolbar block: positioned as one unit (main toolbar, feedback bar below it). */
+.rl-dock {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 2147483647;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.rl-toolbar {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -132,6 +140,28 @@
 .rl-btn:hover,
 .rl-btn:focus-visible {
   background: var(--rl-hover);
+}
+
+/* Icon-only toolbar button (the feedback toggle). */
+.rl-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 7px;
+}
+
+.rl-icon-btn[aria-expanded='true'] {
+  background: var(--rl-accent-soft);
+  color: var(--rl-accent-ink);
+}
+
+/* Second bar under the toolbar; opened by the feedback toggle. */
+.rl-feedback-bar {
+  gap: 4px;
+  padding: 4px 6px;
+}
+
+.rl-rate {
+  color: var(--rl-accent-ink);
 }
 
 .rl-close {

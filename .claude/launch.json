@@ -39,6 +39,19 @@
         "-c-1"
       ],
       "port": 5180
+    },
+    {
+      "name": "revlur-dev",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "--yes",
+        "http-server",
+        "revlur",
+        "-p",
+        "5181",
+        "-c-1"
+      ],
+      "port": 5181
     }
   ]
 }

@@ -9,7 +9,7 @@ Positioning (store name, page title): "Focus on what matters." Hero headline: "S
 ## Stack and constraints
 - Plain JavaScript, HTML, CSS. No framework, no build step, minimal/no dependencies.
 - No backend, accounts, cloud, AI, OCR, analytics, sync, payments. Local settings only (`chrome.storage.local`, blur value).
-- Permissions: `activeTab` + `scripting` only. No broad host permissions, no always-on `content_scripts`.
+- Permissions: `activeTab`, `scripting`, `storage`, plus `contextMenus` (since 0.4.2, for the icon's right-click "Rate Revlur" / "Send feedback"). No broad host permissions, no always-on `content_scripts`.
 - No popup in the activation flow: omit `default_popup`, use `chrome.action.onClicked`. Click activates immediately.
 - Keyboard shortcut is a `commands` entry (`_execute_action`) with **no `suggested_key`**; the user assigns it at `chrome://extensions/shortcuts`.
 
@@ -96,3 +96,8 @@ Things that must happen when the sites go live or the extension is submitted (no
 ## Resize (Oct 8)
 The single selection can be resized after it is made: eight handles (red corner brackets and edge bars just outside the area, flipping inside at the viewport edge; `.rl-handle` in content.css) surround the focused area; dragging one moves only its edge(s) via `geo.resizeRect` (clamped to the viewport, 8px minimum, no flipping). Blur and outline follow live; the toolbar re-places on release. Handles hide while Zoom is open and during Re-select. Still one selection and no moving the whole area (Re-select replaces it); not in the original spec, added as a small additive step. The landing-page demos (website/ and website-waitlist/, demo.js + styles.css) have the same eight handles, working on the mock page: same look, 24px minimum, clamped to the demo, flipping inside near its edge; they appear once an area is chosen. (An earlier version showed non-interactive brackets; that was removed because it implied resizing that did not work.)
 - [ ] **Every time a site CSS/JS file changes, bump the ?v= string** on its link/script tags in index.html and privacy.html (e.g. 20261008a -> 20261008b; currently 20261008c). Cloudflare caches those files for 4 hours at the edge, so new HTML otherwise loads old CSS/JS (seen on Oct 8: new bracket markup with old styles). The HTML itself is not cached.
+
+## Feedback and reviews (0.4.2)
+- Right-click on the toolbar icon: "★ Rate Revlur" (store /reviews tab) and "Send feedback" (revlur.app/feedback.html). Uninstalling opens feedback.html?uninstalled (setUninstallURL), which hides the review section.
+- Feedback bar: a speech-bubble toggle before the toolbar × opens a second pill under the toolbar with "Send feedback" and "★ Rate Revlur" (each opens a tab through the service worker: messages revlur:feedback / revlur:rate). Hidden by default and on every new activation; nothing is stored. The toolbar and the feedback bar sit in one `.rl-dock`, which is what gets placed and dragged, so placement accounts for the open bar. (Replaced a short-lived "★ after 5 uses" nudge that counted uses in storage.)
+- Website feedback form (website/feedback.html + feedback.js): message, optional email (used as reply-to), honeypot `company`, and `source` = website | uninstall. Posts to Web3Forms with the old waitlist's access key (same inbox, same spam measures; rotate in both places if junk appears). The privacy page describes it. Stylesheet cache-bust is now `?v=20261118a` on all site pages.

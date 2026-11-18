@@ -80,6 +80,9 @@ Used so that when the user clicks the Revlur icon or its keyboard shortcut, the 
 **scripting**
 Used to place Revlur's overlay (the blur, the selection outline and the small toolbar) onto the page the user activated it on. The code that is injected ships inside the extension; nothing is downloaded.
 
+**contextMenus**
+Adds two items to the menu shown when the user right-clicks the Revlur toolbar icon: "Rate Revlur" (opens the Chrome Web Store reviews page) and "Send feedback" (opens revlur.app/feedback.html). Nothing is added to page or selection menus, and no data is read or sent.
+
 **storage**
 Used to remember one number, the user's preferred blur level, on their own device. No other data is stored.
 
@@ -110,7 +113,7 @@ The quoted text below is the extension-only version; the page on the site is the
 >
 > **What Revlur remembers.** One setting, your blur level, is saved with Chrome's extension storage on your own device.
 >
-> **Permissions.** Revlur uses the activeTab, scripting and storage permissions only for the purposes described above. It requests no access to websites in advance and does not run on pages you have not activated it on.
+> **Permissions.** Revlur uses the activeTab, scripting and storage permissions only for the purposes described above, and contextMenus to add "Rate Revlur" and "Send feedback" to the menu shown when you right-click its icon. It requests no access to websites in advance and does not run on pages you have not activated it on.
 >
 > **Changes and contact.** If this policy changes, the new version will be posted here. Contact: dddavid.works@gmail.com.
 
