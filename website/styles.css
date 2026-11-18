@@ -261,3 +261,17 @@ footer a:hover { color: var(--text); }
 .nav nav a[aria-current='page'] { color: var(--text); }
 .doc a.btn { color: #fff; text-decoration: none; }
 .doc a.btn:hover { color: #fff; }
+
+/* Feedback form (feedback.html); posts to Web3Forms via feedback.js */
+.fb { display: flex; flex-direction: column; gap: 8px; max-width: 560px; margin: 0 0 12px; }
+.fb label { font-size: 14px; font-weight: 600; color: var(--text); margin-top: 6px; }
+.fb .fb-optional { font-weight: 400; color: var(--muted); }
+.fb textarea, .fb input[type=email] { background: var(--panel-2); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font: inherit; font-size: 15px; }
+.fb textarea { resize: vertical; min-height: 120px; }
+.fb textarea::placeholder, .fb input[type=email]::placeholder { color: var(--muted); }
+.fb textarea:focus-visible, .fb input[type=email]:focus-visible { outline: none; border-color: var(--red); }
+.fb .btn { align-self: flex-start; margin-top: 8px; border: 0; cursor: pointer; font: inherit; font-weight: 600; }
+.fb .btn:disabled { opacity: .6; cursor: default; }
+.fb .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.fb .wl-msg { margin: 0; }
+.fb-alt { font-size: 14px; color: var(--muted); }

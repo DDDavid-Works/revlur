@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feedback – Revlur</title>
+<meta name="description" content="Tell us what works and what doesn't in Revlur, or leave a review on the Chrome Web Store.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://revlur.app/feedback.html">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css?v=20261118a">
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="index.html"><img src="assets/icon.svg" alt="" width="28" height="28"><span>Revlur<span class="brand-dot" aria-hidden="true">.</span></span><span class="tag">Focus on what matters</span></a>
+  <nav>
+    <a class="btn btn-small" href="index.html">Back to the site</a>
+  </nav>
+</header>
+
+<main>
+  <article class="doc">
+    <p class="eyebrow">Feedback</p>
+    <h1 id="fb-title">Tell us what to fix.</h1>
+    <p class="lead-doc" id="fb-lead">Revlur is made by one person, and every message gets read. A bug, a missing feature, or a site where it doesn't work: all of it helps.</p>
+
+    <h2>Send feedback</h2>
+    <form class="fb" data-feedback novalidate>
+      <label for="fb-message">Your message</label>
+      <textarea id="fb-message" name="message" rows="5" maxlength="4000" placeholder="A sentence is plenty. For bugs, the page address helps." required></textarea>
+      <label for="fb-email">Email <span class="fb-optional">(optional, only if you'd like a reply)</span></label>
+      <input id="fb-email" name="email" type="email" placeholder="you@example.com" autocomplete="email">
+      <input class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn" type="submit">Send feedback</button>
+      <p class="wl-msg" role="status" aria-live="polite"></p>
+    </form>
+    <p class="fb-alt">Prefer email? Write to <a href="mailto:dddavid.works@gmail.com?subject=Revlur%20feedback">dddavid.works@gmail.com</a>.</p>
+
+    <section id="fb-review">
+    <h2>Enjoying Revlur?</h2>
+    <p>A short review on the Chrome Web Store helps other people find it.</p>
+    <p><a class="btn btn-ghost" href="https://chromewebstore.google.com/detail/revlur/oclgenhjbbilkndhgnfbgcdlkkgcmjbm/reviews">Leave a review</a></p>
+    </section>
+  </article>
+</main>
+
+<footer>
+  <span>&copy; 2026 Revlur</span>
+  <span><a href="index.html">Home</a> · <a href="blog/">Blog</a> · <a href="privacy.html">Privacy</a></span>
+</footer>
+
+<script src="feedback.js?v=20261118a"></script>
+</body>
+</html>
