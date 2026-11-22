@@ -52,8 +52,14 @@ chrome.action.onClicked.addListener(async (tab) => {
 
 // Feedback without in-page UI: right-click the toolbar icon for "Rate" and
 // "Send feedback"; uninstalling opens a short feedback page on the website.
-const REVIEWS_URL = 'https://chromewebstore.google.com/detail/revlur/oclgenhjbbilkndhgnfbgcdlkkgcmjbm/reviews';
+const CHROME_REVIEWS_URL = 'https://chromewebstore.google.com/detail/revlur/oclgenhjbbilkndhgnfbgcdlkkgcmjbm/reviews';
+// Edge Add-ons listing. Fill in once Partner Center shows the listing URL
+// (https://microsoftedge.microsoft.com/addons/detail/<id>); until then Edge users get the feedback page.
+const EDGE_REVIEWS_URL = '';
+// Edge's user agent carries "Edg/" (Chrome's never does), also inside the service worker.
+const IS_EDGE = /\bEdg\//.test(navigator.userAgent);
 const FEEDBACK_URL = 'https://revlur.app/feedback.html';
+const REVIEWS_URL = IS_EDGE ? EDGE_REVIEWS_URL || FEEDBACK_URL : CHROME_REVIEWS_URL;
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.removeAll(() => {

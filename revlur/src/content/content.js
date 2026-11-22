@@ -682,7 +682,7 @@
     feedbackBar.hidden = true;
     const send = button('rl-btn', 'Send feedback', 'Tell us what to fix (opens revlur.app)');
     send.addEventListener('click', () => openFromExtension('revlur:feedback'));
-    const rate = button('rl-btn rl-rate', '★ Rate Revlur', 'Leave a review on the Chrome Web Store');
+    const rate = button('rl-btn rl-rate', '★ Rate Revlur', /\bEdg\//.test(navigator.userAgent) ? 'Leave a review' : 'Leave a review on the Chrome Web Store');
     rate.addEventListener('click', () => openFromExtension('revlur:rate'));
     feedbackBar.append(send, rate);
 
